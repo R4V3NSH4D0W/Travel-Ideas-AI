@@ -1,42 +1,39 @@
-import React, { useState, useEffect, useRef } from "react";
 import {
-  StyleSheet,
   Text,
   View,
-  TouchableOpacity,
-  ToastAndroid,
   Image,
   Alert,
   Switch,
-  TextInput,
-  Button,
-  Animated,
-  TouchableWithoutFeedback,
-  Keyboard,
-  KeyboardAvoidingView,
   Platform,
+  Animated,
+  TextInput,
+  StyleSheet,
+  ToastAndroid,
+  TouchableOpacity,
+  KeyboardAvoidingView,
+  TouchableWithoutFeedback,
 } from "react-native";
-import { Colors } from "../../constants/Colors";
-import {
-  signOut,
-  updateProfile,
-  reauthenticateWithCredential,
-  EmailAuthProvider,
-} from "firebase/auth";
+import React, { useState, useEffect } from "react";
+
 import { useRouter } from "expo-router";
-import { auth } from "../../configs/FirebaseConfig";
 import * as ImagePicker from "expo-image-picker";
-import * as SecureStore from "expo-secure-store";
-import * as LocalAuthentication from "expo-local-authentication";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
+
+import {
+  uploadImageToFirebase,
+  loadBiometricPreference,
+  verifyUserAndEnableBiometric,
+  disableBiometricAuthentication,
+} from "../../helper/profileScreenHelper";
+import { Colors } from "../../constants/Colors";
+import { auth } from "../../configs/FirebaseConfig";
+import { signOut, updateProfile } from "firebase/auth";
 
 export default function Profile() {
   const [image, setImage] = useState(auth.currentUser?.photoURL);
   const [biometricEnabled, setBiometricEnabled] = useState(false);
-  const [showPasswordPrompt, setShowPasswordPrompt] = useState(false);
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState(auth.currentUser?.email || "");
-  const [showBiometricPrompt, setShowBiometricPrompt] = useState(false);
   const router = useRouter();
   const user = auth.currentUser;
 
@@ -44,14 +41,12 @@ export default function Profile() {
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   useEffect(() => {
-    const loadBiometricPreference = async () => {
-      const storedBiometricPreference = await SecureStore.getItemAsync(
-        "biometricEnabled"
-      );
-      setBiometricEnabled(storedBiometricPreference === "true");
+    const loadBiometric = async () => {
+      const isEnabled = await loadBiometricPreference();
+      setBiometricEnabled(isEnabled);
     };
 
-    loadBiometricPreference();
+    loadBiometric();
   }, []);
 
   const handleLogout = () => {
@@ -104,20 +99,19 @@ export default function Profile() {
       setImage(selectedImageUri);
 
       if (user) {
-        updateProfile(user, { photoURL: selectedImageUri })
-          .then(() =>
-            ToastAndroid.show(
-              "Profile image updated successfully!",
-              ToastAndroid.SHORT
-            )
-          )
-          .catch((error) => {
-            console.error(error);
-            ToastAndroid.show(
-              "Failed to update profile image.",
-              ToastAndroid.SHORT
-            );
-          });
+        try {
+          const downloadURL = await uploadImageToFirebase(selectedImageUri);
+          await updateProfile(user, { photoURL: downloadURL });
+          ToastAndroid.show(
+            "Profile image updated successfully!",
+            ToastAndroid.SHORT
+          );
+        } catch (error) {
+          ToastAndroid.show(
+            "Failed to update profile image.",
+            ToastAndroid.SHORT
+          );
+        }
       }
     }
   };
@@ -143,102 +137,32 @@ export default function Profile() {
       setImage(capturedImageUri);
 
       if (user) {
-        updateProfile(user, { photoURL: capturedImageUri })
-          .then(() =>
-            ToastAndroid.show(
-              "Profile image updated successfully!",
-              ToastAndroid.SHORT
-            )
-          )
-          .catch((error) => {
-            console.error(error);
-            ToastAndroid.show(
-              "Failed to update profile image.",
-              ToastAndroid.SHORT
-            );
-          });
+        try {
+          const downloadURL = await uploadImageToFirebase(capturedImageUri);
+          await updateProfile(user, { photoURL: downloadURL });
+          ToastAndroid.show(
+            "Profile image updated successfully!",
+            ToastAndroid.SHORT
+          );
+        } catch (error) {
+          ToastAndroid.show(
+            "Failed to update profile image.",
+            ToastAndroid.SHORT
+          );
+        }
       }
     }
   };
 
   const handleBiometricToggle = async () => {
     if (biometricEnabled) {
-      // Disable biometric authentication
-      await SecureStore.deleteItemAsync("biometricEnabled");
-      await SecureStore.deleteItemAsync("userEmail");
-      await SecureStore.deleteItemAsync("userPassword");
+      await disableBiometricAuthentication();
       setBiometricEnabled(false);
-      ToastAndroid.show(
-        "Biometric authentication disabled. Please re-enable to set up new credentials.",
-        ToastAndroid.SHORT
-      );
     } else {
       setIsModalVisible(true);
       Animated.timing(modalTranslateY, {
         toValue: 0,
         duration: 300,
-        useNativeDriver: true,
-      }).start();
-    }
-  };
-
-  const verifyUserAndEnableBiometric = async () => {
-    if (!password) {
-      ToastAndroid.show("Password is required.", ToastAndroid.SHORT);
-      return;
-    }
-
-    try {
-      // Reauthenticate user
-      const credential = EmailAuthProvider.credential(email, password);
-      await reauthenticateWithCredential(user, credential);
-
-      // Check for biometric hardware
-      const hasHardware = await LocalAuthentication.hasHardwareAsync();
-      if (!hasHardware) {
-        ToastAndroid.show(
-          "Biometric hardware is not available on this device.",
-          ToastAndroid.SHORT
-        );
-        return;
-      }
-
-      // Prompt for biometric authentication
-      const result = await LocalAuthentication.authenticateAsync({
-        promptMessage: "Authenticate to enable biometric",
-        cancelLabel: "Cancel",
-        disableDeviceFallback: true,
-      });
-
-      if (result.success) {
-        // Store credentials securely
-        await SecureStore.setItemAsync("biometricEnabled", "true");
-        await SecureStore.setItemAsync("userEmail", email);
-        await SecureStore.setItemAsync("userPassword", password);
-
-        setBiometricEnabled(true);
-        ToastAndroid.show(
-          "Biometric authentication enabled",
-          ToastAndroid.SHORT
-        );
-      } else {
-        ToastAndroid.show(
-          "Biometric authentication failed.",
-          ToastAndroid.SHORT
-        );
-      }
-    } catch (error) {
-      console.error(error);
-      ToastAndroid.show(
-        "Authentication failed. Please check your password.",
-        ToastAndroid.SHORT
-      );
-    } finally {
-      setIsModalVisible(false);
-      setPassword("");
-      Animated.timing(modalTranslateY, {
-        toValue: 500,
-        duration: 500,
         useNativeDriver: true,
       }).start();
     }
@@ -420,12 +344,17 @@ export default function Profile() {
               />
 
               <TouchableOpacity
-                style={{
-                  position: "absolute",
-                  bottom: 0,
-                  right: 0,
-                }}
-                onPress={verifyUserAndEnableBiometric}
+                style={{ position: "absolute", right: 10, bottom: 0 }}
+                onPress={() =>
+                  verifyUserAndEnableBiometric(
+                    user,
+                    email,
+                    password,
+                    setBiometricEnabled,
+                    setIsModalVisible,
+                    setPassword
+                  )
+                }
               >
                 <FontAwesome name="send" size={24} color="black" />
               </TouchableOpacity>
