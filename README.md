@@ -31,14 +31,4 @@ Follow the setup guides linked above to enable these APIs and configure your pro
 
 Here are some screenshots of the app in action:
 
-### Profile Screen
-![Profile Screen](screenshots/Profile.jpg)
-
-### Home Screen
-![Home Screen](screenshots/HomeScreen.jpg)
-
-### Starting Screen
-![Starting Screen](screenshots/Starting.jpg)
-
-### Login Screen
-![Login Screen](screenshots/Login.jpg)
+<table> <tr> <td style="padding: 10px;"> <img src="screenshots/Profile.jpg" width="200" alt="Profile Screen" style="margin-right: 20px;"/> <br/> <strong>Profile Screen</strong> </td> <td style="padding: 10px;"> <img src="screenshots/HomeScreen.jpg" width="200" alt="Home Screen" style="margin-left: 20px;"/> <br/> <strong>Home Screen</strong> </td> </tr> <tr> <td style="padding: 10px;"> <img src="screenshots/Starting.jpg" width="200" alt="Starting Screen" style="margin-right: 20px;"/> <br/> <strong>Starting Screen</strong> </td> <td style="padding: 10px;"> <img src="screenshots/Login.jpg" width="200" alt="Login Screen" style="margin-left: 20px;"/> <br/> <strong>Login Screen</strong> </td> </tr> </table>
