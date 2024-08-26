@@ -27,6 +27,15 @@ You can start developing by editing the files inside the **app** directory. This
 
 ## Get a fresh project
 
+# 🌟 Additional Setup
+To fully leverage the features of this app, you need to enable the following Google APIs:
+
+- Google Places API: Required for location-based services.
+- Geocoding API: Needed for converting addresses into geographic coordinates.
+- Google Vision API: Used for image analysis and recognition.
+- Google Cloud Translator API: Enables translation of text into multiple languages.
+Follow the setup guides linked above to enable these APIs and configure your project accordingly.
+
 When you're ready, run:
 
 ```bash
