@@ -21,8 +21,24 @@ To fully leverage the features of this app, you need to enable the following Goo
 - Google Cloud Translator API: Enables translation of text into multiple languages.
 Follow the setup guides linked above to enable these APIs and configure your project accordingly.
 
-.3. Start the app
+3. Start the app
 
    ```bash
     npm run start
    ```
+
+## 📸 Screenshots
+
+Here are some screenshots of the app in action:
+
+### Profile Screen
+![Profile Screen](screenshots/Profile.jpg)
+
+### Home Screen
+![Home Screen](screenshots/HomeScreen.jpg)
+
+### Starting Screen
+![Starting Screen](screenshots/Starting.jpg)
+
+### Login Screen
+![Login Screen](screenshots/Login.jpg)
