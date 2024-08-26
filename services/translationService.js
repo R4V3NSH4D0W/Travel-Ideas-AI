@@ -1,7 +1,7 @@
 import axios from "axios";
-import { UAT_GOOGLE_KEY } from "../env";
+import { GOOGLE_API_KEY } from "../env";
 
-const TRANSLATION_API_KEY = UAT_GOOGLE_KEY;
+const TRANSLATION_API_KEY = GOOGLE_API_KEY;
 const TRANSLATION_API_URL =
   "https://translation.googleapis.com/language/translate/v2";
 

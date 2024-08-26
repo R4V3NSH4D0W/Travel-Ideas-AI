@@ -11,7 +11,7 @@ import {
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Colors } from "../../constants/Colors";
 import { GetPhotoRef } from "../../services/GooglePlaceApi";
-import { UAT_GOOGLE_KEY } from "../../env";
+import { GOOGLE_API_KEY } from "../../env";
 
 const PlanCard = ({ activity, location }) => {
   const [photoRef, setPhotoRef] = useState();
@@ -65,7 +65,7 @@ const PlanCard = ({ activity, location }) => {
             "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=" +
             photoRef +
             "&key=" +
-            UAT_GOOGLE_KEY,
+            GOOGLE_API_KEY,
         }}
         style={styles.image}
         resizeMode="cover"

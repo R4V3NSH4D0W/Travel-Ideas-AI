@@ -4,7 +4,7 @@ import { useNavigation, useRouter } from "expo-router";
 import { Colors } from "../../constants/Colors";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import { CreateTripContext } from "../../context/CreateTripContext";
-import { UAT_GOOGLE_KEY } from "../../env";
+import { GOOGLE_API_KEY } from "../../env";
 
 const SearchPlace = () => {
   const navigation = useNavigation();
@@ -47,7 +47,7 @@ const SearchPlace = () => {
           router.push("/create-trip/selectTraveler");
         }}
         query={{
-          key: UAT_GOOGLE_KEY,
+          key: GOOGLE_API_KEY,
           language: "en",
         }}
         styles={{

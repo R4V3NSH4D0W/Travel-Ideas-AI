@@ -1,5 +1,5 @@
 import axios from "axios";
-import { UAT_GOOGLE_KEY } from "../env";
+import { GOOGLE_API_KEY } from "../env";
 
 export const fetchDescriptionFromWikipedia = async (entityName) => {
   try {
@@ -51,7 +51,7 @@ export const analyzeImage = async (
 ) => {
   setLoading(true);
 
-  const url = `https://vision.googleapis.com/v1/images:annotate?key=${UAT_GOOGLE_KEY}`;
+  const url = `https://vision.googleapis.com/v1/images:annotate?key=${GOOGLE_API_KEY}`;
 
   const body = {
     requests: [

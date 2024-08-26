@@ -1,16 +1,16 @@
 import {
   View,
   Text,
+  Modal,
+  Keyboard,
+  Platform,
   TextInput,
   StyleSheet,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
-  Keyboard,
-  KeyboardAvoidingView,
-  Platform,
   ToastAndroid,
-  Modal,
+  TouchableOpacity,
   ActivityIndicator,
+  KeyboardAvoidingView,
+  TouchableWithoutFeedback,
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import { Colors } from "../../../constants/Colors";
@@ -27,7 +27,7 @@ export default function SignIn() {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [biometricEnabled, setBiometricEnabled] = useState(false); // Renamed from biometricAvailable
+  const [biometricEnabled, setBiometricEnabled] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -35,13 +35,11 @@ export default function SignIn() {
       const biometricPreference = await SecureStore.getItemAsync(
         "biometricEnabled"
       );
-      console.log("Biometric Preference:", biometricPreference); // Add logging
+      console.log("Biometric Preference:", biometricPreference);
       setBiometricEnabled(biometricPreference === "true");
 
       const hasHardware = await LocalAuthentication.hasHardwareAsync();
       const isEnrolled = await LocalAuthentication.isEnrolledAsync();
-      console.log("Has Hardware:", hasHardware); // Add logging
-      console.log("Is Enrolled:", isEnrolled); // Add logging
 
       if (!hasHardware || !isEnrolled || !biometricPreference) {
         setBiometricEnabled(false);
@@ -84,12 +82,10 @@ export default function SignIn() {
 
   const handleBiometricLogin = async () => {
     try {
-      // Retrieve stored email and password
       const storedEmail = await SecureStore.getItemAsync("userEmail");
       const storedPassword = await SecureStore.getItemAsync("userPassword");
 
       if (storedEmail && storedPassword) {
-        // Authenticate with biometrics
         const result = await LocalAuthentication.authenticateAsync({
           promptMessage: "Authenticate to log in",
           fallbackLabel: "Use Passcode",
@@ -98,7 +94,6 @@ export default function SignIn() {
         if (result.success) {
           console.log("Biometric authentication successful");
 
-          // Directly use stored credentials for signing in
           setIsLoading(true);
           signInWithEmailAndPassword(auth, storedEmail, storedPassword)
             .then((userCredential) => {

@@ -1,4 +1,4 @@
-import { UAT_GOOGLE_KEY } from "../env";
+import { GOOGLE_API_KEY } from "../env";
 
 export const GetPhotoRef = async (placeName) => {
   if (!placeName) {
@@ -10,7 +10,7 @@ export const GetPhotoRef = async (placeName) => {
     "https://maps.googleapis.com/maps/api/place/textsearch/json?query=" +
       encodeURIComponent(placeName) +
       "&key=" +
-      UAT_GOOGLE_KEY
+      GOOGLE_API_KEY
   );
   const result = await res.json();
 
@@ -21,7 +21,7 @@ export const getCoordinates = async (placeName) => {
   console.log("getCoordinates", placeName);
   try {
     const encodedPlaceName = encodeURIComponent(placeName);
-    const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodedPlaceName}&key=${UAT_GOOGLE_KEY}`;
+    const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodedPlaceName}&key=${GOOGLE_API_KEY}`;
 
     const response = await fetch(url);
     if (!response.ok) {

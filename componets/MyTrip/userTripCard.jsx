@@ -10,7 +10,7 @@ import {
 import { Swipeable } from "react-native-gesture-handler";
 import moment from "moment";
 import { Colors } from "../../constants/Colors";
-import { UAT_GOOGLE_KEY } from "../../env";
+import { GOOGLE_API_KEY } from "../../env";
 import { useRouter } from "expo-router";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import * as Linking from "expo-linking";
@@ -92,7 +92,7 @@ export default function UserTripCard({ trip, id, onDelete }) {
               "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=" +
               formatData(trip.tripData).locationInfo?.photoRef +
               "&key=" +
-              UAT_GOOGLE_KEY,
+              GOOGLE_API_KEY,
           }}
           style={{
             width: 100,

@@ -2,7 +2,7 @@ import { View, Text, Image, ScrollView } from "react-native";
 import React, { useEffect, useState } from "react";
 import { useLocalSearchParams, useNavigation, useRouter } from "expo-router";
 import { Colors } from "../../constants/Colors";
-import { UAT_GOOGLE_KEY } from "../../env";
+import { GOOGLE_API_KEY } from "../../env";
 import moment from "moment";
 import FlightInfo from "../../componets/TripDetails/FlightInfo";
 import * as Linking from "expo-linking";
@@ -115,7 +115,7 @@ const TripDetails = () => {
               "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=" +
               formatData(tripDetails?.tripData).locationInfo?.photoRef +
               "&key=" +
-              UAT_GOOGLE_KEY,
+              GOOGLE_API_KEY,
           }}
           style={{
             width: "100%",

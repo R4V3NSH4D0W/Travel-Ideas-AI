@@ -3,7 +3,7 @@ import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import moment from "moment";
 import { Colors } from "../../constants/Colors";
 import UserTripCard from "./userTripCard";
-import { UAT_GOOGLE_KEY } from "../../env";
+import { GOOGLE_API_KEY } from "../../env";
 import { useRouter } from "expo-router";
 
 export default function UserTripList({ userTrips, setUserTrips, onDelete }) {
@@ -24,7 +24,7 @@ export default function UserTripList({ userTrips, setUserTrips, onDelete }) {
                 "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=" +
                 LatestTrip.locationInfo.photoRef +
                 "&key=" +
-                UAT_GOOGLE_KEY,
+                GOOGLE_API_KEY,
             }}
             style={{
               width: "100%",

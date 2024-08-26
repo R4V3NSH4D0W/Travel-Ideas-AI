@@ -1,6 +1,6 @@
 import { View, Text, Image, Linking, TouchableOpacity } from "react-native";
 import React, { useEffect, useState } from "react";
-import { UAT_GOOGLE_KEY } from "../../env";
+import { GOOGLE_API_KEY } from "../../env";
 import { GetPhotoRef } from "../../services/GooglePlaceApi";
 
 export default function HotelCard({ item }) {
@@ -48,7 +48,7 @@ export default function HotelCard({ item }) {
             "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=" +
             photoRef +
             "&key=" +
-            UAT_GOOGLE_KEY,
+            GOOGLE_API_KEY,
         }}
         style={{
           width: 250,
