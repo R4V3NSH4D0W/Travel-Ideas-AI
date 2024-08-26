@@ -1,13 +1,14 @@
 import {
   ref,
-  uploadBytes,
+  listAll,
   deleteObject,
   getDownloadURL,
+  uploadBytesResumable,
 } from "firebase/storage";
 import { ToastAndroid } from "react-native";
 import { updateProfile } from "firebase/auth";
-import { auth } from "../configs/FirebaseConfig";
 import * as SecureStore from "expo-secure-store";
+import { auth, storage } from "../configs/FirebaseConfig";
 import * as LocalAuthentication from "expo-local-authentication";
 import { EmailAuthProvider, reauthenticateWithCredential } from "firebase/auth";
 
@@ -19,35 +20,51 @@ export const uploadImageToFirebase = async (uri) => {
 
   try {
     const fileName = uri.split("/").pop();
-    const userImagePath = `profile_pictures/${userId}/${fileName}`;
+    const imagePath = `profile_pictures/${userId}/`;
+    const imageRef = ref(storage, imagePath);
 
-    if (user.photoURL) {
-      const existingImageRef = ref(storage, user.photoURL);
-      try {
-        await deleteObject(existingImageRef);
-      } catch (error) {
-        if (error.code !== "storage/object-not-found") {
-          console.error("Failed to delete existing image:", error);
-        }
-      }
+    try {
+      const listResult = await listAll(imageRef);
+      const deletePromises = listResult.items.map((itemRef) =>
+        deleteObject(itemRef)
+      );
+      await Promise.all(deletePromises);
+    } catch (error) {
+      console.error("Failed to delete existing images:", error);
     }
 
-    const response = await fetch(uri);
-    const blob = await response.blob();
-    const storageRef = ref(storage, userImagePath);
-    await uploadBytes(storageRef, blob);
-    const downloadURL = await getDownloadURL(storageRef);
+    const fetchResponse = await fetch(uri);
+    const blob = await fetchResponse.blob();
 
-    await updateProfile(user, { photoURL: downloadURL });
+    const uploadTask = uploadBytesResumable(
+      ref(storage, `${imagePath}${fileName}`),
+      blob
+    );
 
-    return downloadURL;
+    uploadTask.on(
+      "state_changed",
+      null,
+      (error) => {
+        console.error("Error uploading image:", error);
+        ToastAndroid.show("Failed to upload image.", ToastAndroid.SHORT);
+      },
+      async () => {
+        try {
+          const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+          await updateProfile(user, { photoURL: downloadURL });
+
+          return downloadURL;
+        } catch (error) {
+          ToastAndroid.show("Failed to fetch image URL.", ToastAndroid.SHORT);
+          throw error;
+        }
+      }
+    );
   } catch (error) {
-    console.error(error);
     ToastAndroid.show("Failed to upload image.", ToastAndroid.SHORT);
     throw error;
   }
 };
-
 export const loadBiometricPreference = async () => {
   const storedBiometricPreference = await SecureStore.getItemAsync(
     "biometricEnabled"
