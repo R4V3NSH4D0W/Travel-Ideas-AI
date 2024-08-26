@@ -18,9 +18,6 @@ import { useRouter } from "expo-router";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from "../../../configs/FirebaseConfig";
-import { doc, setDoc } from "firebase/firestore";
-import * as LocalAuthentication from "expo-local-authentication";
-import * as SecureStore from "expo-secure-store";
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -82,8 +79,6 @@ export default function SignUp() {
             "Your account has been created",
             ToastAndroid.SHORT
           );
-
-          // Show biometric prompt
 
           setTimeout(() => {
             setIsLoading(false);
@@ -244,7 +239,6 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
   activityIndicatorWrapper: {
     display: "flex",

@@ -5,10 +5,7 @@ import { Colors } from "../../constants/Colors";
 import BottomSheet from "@gorhom/bottom-sheet";
 import AACamera from "../../componets/camera/Camera";
 import { ScrollView } from "react-native-gesture-handler";
-import {
-  analyzeImage,
-  fetchDescriptionFromWikipedia,
-} from "../../services/ImageReconizationHelpers";
+import { analyzeImage } from "../../services/ImageReconizationHelpers";
 
 export default function ImageRecognization() {
   const [image, setImage] = useState(null);
@@ -41,13 +38,6 @@ export default function ImageRecognization() {
       </Text>
     </View>
   );
-
-  const fetchDescription = async (name) => {
-    const description = await fetchDescriptionFromWikipedia(name);
-    console.log("Description:", description);
-  };
-
-  fetchDescription("Dharahara Tower");
 
   return (
     <View style={styles.container}>

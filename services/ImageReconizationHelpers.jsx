@@ -75,12 +75,10 @@ export const analyzeImage = async (
 
   try {
     const response = await axios.post(url, body);
-    console.log("Response data:", response.data);
 
     const { responses } = response.data;
     if (responses && responses.length > 0) {
       const landmarkAnnotations = responses[0]?.landmarkAnnotations || [];
-      console.log("Landmark annotations:", landmarkAnnotations);
 
       if (landmarkAnnotations.length > 0) {
         const sortedLandmarks = landmarkAnnotations.sort(
@@ -101,7 +99,7 @@ export const analyzeImage = async (
           const sortedWebEntities = webDetection.webEntities.sort(
             (a, b) => b.score - a.score
           );
-          console.log("Sorted web entities:", sortedWebEntities);
+
           const topEntity = sortedWebEntities[0];
           const description = await fetchDescriptionFromWikipedia(
             topEntity.description

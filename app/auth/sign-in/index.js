@@ -35,7 +35,7 @@ export default function SignIn() {
       const biometricPreference = await SecureStore.getItemAsync(
         "biometricEnabled"
       );
-      console.log("Biometric Preference:", biometricPreference);
+
       setBiometricEnabled(biometricPreference === "true");
 
       const hasHardware = await LocalAuthentication.hasHardwareAsync();
@@ -58,7 +58,6 @@ export default function SignIn() {
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
-        console.log(user);
 
         ToastAndroid.show("Login successful", ToastAndroid.LONG);
 
@@ -69,7 +68,6 @@ export default function SignIn() {
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
-        console.log(errorCode, errorMessage);
         if (errorCode === "auth/invalid-credential") {
           ToastAndroid.show("Invalid credential", ToastAndroid.LONG);
         } else {
@@ -92,14 +90,10 @@ export default function SignIn() {
         });
 
         if (result.success) {
-          console.log("Biometric authentication successful");
-
           setIsLoading(true);
           signInWithEmailAndPassword(auth, storedEmail, storedPassword)
             .then((userCredential) => {
               const user = userCredential.user;
-              console.log(user);
-
               ToastAndroid.show("Login successful", ToastAndroid.LONG);
               setTimeout(() => {
                 router.replace("/mytrip");
@@ -108,7 +102,7 @@ export default function SignIn() {
             .catch((error) => {
               const errorCode = error.code;
               const errorMessage = error.message;
-              console.log(errorCode, errorMessage);
+
               if (errorCode === "auth/invalid-credential") {
                 ToastAndroid.show("Invalid credential", ToastAndroid.LONG);
               } else {

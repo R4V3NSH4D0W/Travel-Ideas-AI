@@ -2,6 +2,7 @@ import { StyleSheet, Text, View, Button, TouchableOpacity } from "react-native";
 import React, { useEffect, useState } from "react";
 import { fetchWeatherData } from "../../services/weatherReport";
 import { Colors } from "../../constants/Colors";
+import WeatherSkeleton from "../../app/skeleton/weather_Skeleton";
 
 const getWeatherEmoji = (condition) => {
   switch (condition.toLowerCase()) {
@@ -97,7 +98,7 @@ export default function WeatherCard({ date, coordinates }) {
   }, [formattedDate, coordinates]);
 
   if (!weatherData) {
-    return <Text>Loading weather data...</Text>;
+    return <WeatherSkeleton />;
   }
 
   const dayData = weatherData?.forecast?.forecastday?.[0]?.day;

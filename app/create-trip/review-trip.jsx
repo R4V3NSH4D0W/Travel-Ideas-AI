@@ -8,7 +8,6 @@ import moment from "moment";
 const ReviewTrip = () => {
   const navigation = useNavigation();
   const { tripData, setTripData } = useContext(CreateTripContext);
-  console.log(tripData?.traveler?.title);
   const router = useRouter();
 
   useEffect(() => {

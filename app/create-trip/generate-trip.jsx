@@ -10,7 +10,6 @@ import { doc, setDoc } from "firebase/firestore";
 
 const GenerateTrip = () => {
   const { tripData, setTripData } = useContext(CreateTripContext);
-  console.log("tripData", tripData);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const user = auth.currentUser;

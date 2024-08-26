@@ -3,8 +3,6 @@ import React from "react";
 import { Colors } from "../../constants/Colors";
 
 export default function FlightInfo({ flightData }) {
-  console.log("here", flightData);
-  //   const flight = flightData && flightData.length > 0 ? flightData[0] : null;
   return (
     <View
       style={{

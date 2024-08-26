@@ -2,9 +2,10 @@ import { View, Text, Image, Linking, TouchableOpacity } from "react-native";
 import React, { useEffect, useState } from "react";
 import { GOOGLE_API_KEY } from "../../env";
 import { GetPhotoRef } from "../../services/GooglePlaceApi";
+import HotelSkeleton from "../../app/skeleton/hotel_skeleton";
 
 export default function HotelCard({ item }) {
-  console.log("item", item?.websiteURL);
+  const [loading, setLoading] = useState(true);
   const sliceHotelText = (text, maxLength) => {
     if (!text) return "";
     if (text.length <= maxLength) return text;
@@ -17,12 +18,14 @@ export default function HotelCard({ item }) {
   }, [item?.name]);
 
   const GetGooglePhotoRef = async () => {
+    setLoading(true);
     try {
       const photoRef = await GetPhotoRef(item?.name);
       setPhotoRef(photoRef.results[0]?.photos[0]?.photo_reference);
     } catch (error) {
       console.error("Failed to fetch photo reference:", error);
     }
+    setLoading(false);
   };
 
   const handlePress = () => {
@@ -32,14 +35,15 @@ export default function HotelCard({ item }) {
       );
     }
   };
-
+  if (loading) {
+    return <HotelSkeleton />;
+  }
   return (
     <TouchableOpacity
       onPress={handlePress}
       style={{
         marginRight: 20,
         width: 250,
-        // borderWidth: 1,
       }}
     >
       <Image
@@ -56,14 +60,7 @@ export default function HotelCard({ item }) {
           borderRadius: 15,
         }}
       />
-      {/* <Image
-        style={{
-          width: 210,
-          height: 120,
-          borderRadius: 15,
-        }}
-        source={require("../../assets/images/login.jpg")}
-      /> */}
+
       <View
         style={{
           padding: 5,

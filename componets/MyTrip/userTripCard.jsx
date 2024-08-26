@@ -13,7 +13,6 @@ import { Colors } from "../../constants/Colors";
 import { GOOGLE_API_KEY } from "../../env";
 import { useRouter } from "expo-router";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import * as Linking from "expo-linking";
 
 export default function UserTripCard({ trip, id, onDelete }) {
   const router = useRouter();
@@ -22,7 +21,7 @@ export default function UserTripCard({ trip, id, onDelete }) {
   const generateLink = () => {
     const encodedTrip = encodeURIComponent(JSON.stringify(trip));
     const link = `http://192.168.254.253:8081/trip-details?data=${encodedTrip}`;
-    console.log("Link:", link);
+
     return link;
   };
 

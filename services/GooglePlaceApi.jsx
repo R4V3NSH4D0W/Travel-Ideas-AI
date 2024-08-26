@@ -18,7 +18,6 @@ export const GetPhotoRef = async (placeName) => {
 };
 
 export const getCoordinates = async (placeName) => {
-  console.log("getCoordinates", placeName);
   try {
     const encodedPlaceName = encodeURIComponent(placeName);
     const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodedPlaceName}&key=${GOOGLE_API_KEY}`;

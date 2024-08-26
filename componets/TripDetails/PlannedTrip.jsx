@@ -9,11 +9,10 @@ import WeatherCard from "./WeatherCard";
 export default function PlannedTrip({ details = [], location, tripData }) {
   const trip = JSON.parse(tripData);
   const { startDate, endDate } = trip;
-  // console.log("Details", details);
+
   const start = new Date(startDate);
   const end = new Date(endDate);
   const [weatherData, setWeatherData] = useState({});
-  console.log("Location", location);
 
   const [coordinates, setCoordinates] = useState(null);
 
@@ -21,7 +20,7 @@ export default function PlannedTrip({ details = [], location, tripData }) {
     const fetchCoordinates = async () => {
       try {
         const data = await getCoordinates(location);
-        console.log("Data", data);
+
         setCoordinates(data);
       } catch (error) {
         console.error("Error fetching coordinates:", error);

@@ -8,6 +8,8 @@ import FlightInfo from "../../componets/TripDetails/FlightInfo";
 import * as Linking from "expo-linking";
 import HotelList from "../../componets/TripDetails/HotelList";
 import PlannedTrip from "../../componets/TripDetails/PlannedTrip";
+import HotelSkeleton from "../skeleton/hotel_skeleton";
+import WeatherSkeleton from "../skeleton/weather_Skeleton";
 
 const TripDetails = () => {
   const navigation = useNavigation();
@@ -17,37 +19,18 @@ const TripDetails = () => {
 
   const [tripDetails, setTripDetails] = useState(null);
   const [isEnded, setIsEnded] = useState(false);
-  console.log("isEnded:", isEnded);
-
-  // const data = tripDetails ? JSON.parse(tripDetails.tripData) : null;
-  // console.log("date:", data.endDate);
-
-  // if (data) {
-  //   const endDate = new Date(data.endDate);
-  //   console.log("End Date:", endDate);
-
-  //   const currentDate = new Date();
-  //   console.log("Current Date:", currentDate);
-
-  //   // Check if the end date has passed
-  //   const isEnded = endDate < currentDate;
-  //   setIsEnded(isEnded);
-  // }
 
   useEffect(() => {
     if (tripDetails) {
       const data = tripDetails ? JSON.parse(tripDetails.tripData) : null;
       const endDate = new Date(data?.endDate);
-      // console.log("End Date:", endDate);
 
       const currentDate = new Date();
-      console.log("Current Date:", currentDate);
 
-      // Check if the end date has passed
       const isEnded = endDate < currentDate;
       setIsEnded(isEnded);
     }
-  }, [tripDetails]); // Dependency array includes tripDetails
+  }, [tripDetails]);
 
   const formatData = (data) => {
     try {
@@ -190,10 +173,10 @@ const TripDetails = () => {
           /> */}
 
           {/* Hotel LIsts  */}
+
           <HotelList hotelList={tripDetails?.tripPlan?.hotels} />
 
           {/* Trip Day planner info */}
-
           <PlannedTrip
             details={tripDetails?.tripPlan?.dailyPlans}
             location={tripDetails?.location}
