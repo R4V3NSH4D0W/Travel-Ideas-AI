@@ -11,6 +11,8 @@ export default function HotelCard({ item }) {
   const currentLanguage = i18next.language;
   const [loading, setLoading] = useState(true);
   const [translatedActivity, setTranslatedActivity] = useState(null);
+  console.log(translatedActivity);
+  console.log(item?.price);
 
   const sliceHotelText = (text, maxLength) => {
     if (!text) return "";
@@ -61,12 +63,14 @@ export default function HotelCard({ item }) {
         } else {
           setTranslatedActivity({
             name: item?.name,
+            price: item?.price,
           });
         }
       } catch (error) {
         console.error("Translation failed:", error);
         setTranslatedActivity({
           name: item?.name,
+          price: item?.price,
         });
       }
     };

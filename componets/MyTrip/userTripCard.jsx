@@ -21,7 +21,6 @@ export default function UserTripCard({ trip, id, onDelete }) {
   const router = useRouter();
   const currentLanguage = i18next.language;
   const [translatedActivity, setTranslatedActivity] = useState(null);
-  console.log("translatedActivity", translatedActivity);
 
   const formatData = (data) => JSON.parse(data);
 

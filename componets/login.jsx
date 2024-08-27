@@ -62,7 +62,8 @@ export default function Login() {
             {TRANSLATE("STARTING.GET_STARTED")}
           </Text>
         </TouchableOpacity>
-
+      </View>
+      <View style={{ zIndex: 1, position: "absolute", right: -85, top: 20 }}>
         <LanguageSwitcher />
       </View>
     </View>

@@ -1,6 +1,6 @@
 export default {
   STARTING: {
-    AI_TRAVEL_PLANNER: "AI Travel Planner",
+    AI_TRAVEL_PLANNER: "Travel Ideas",
     DISCOVER:
       "Discover Your New adventure effortlessly. personalized itineraies at your finger tips. Travel Smarter with AI Driven insigths",
     GET_STARTED: "Get Started",

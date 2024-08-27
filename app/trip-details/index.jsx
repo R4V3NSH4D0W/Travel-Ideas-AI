@@ -102,7 +102,10 @@ const TripDetails = () => {
 
   const formatData = (data) => {
     try {
-      return JSON.parse(data);
+      if (typeof data === "string") {
+        return JSON.parse(data);
+      }
+      return data;
     } catch (error) {
       console.error("Error parsing JSON:", error);
       return null;

@@ -2,13 +2,17 @@ import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import en from "./resources/en";
-import bm from "./resources/bm";
+import ko from "./resources/ko";
+import ru from "./resources/ru";
 import ja from "./resources/ja";
+import de from "./resources/de";
 
 const resources = {
   en: { translation: en },
-  bm: { translation: bm },
   ja: { translation: ja },
+  ko: { translation: ko },
+  ru: { translation: ru },
+  de: { translation: de },
 };
 
 const initI18n = async () => {
