@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { fetchWeatherData } from "../../services/weatherReport";
 import { Colors } from "../../constants/Colors";
 import WeatherSkeleton from "../../app/skeleton/weather_Skeleton";
+import { TRANSLATE } from "../../app/i18n/translationHelper";
 
 const getWeatherEmoji = (condition) => {
   switch (condition.toLowerCase()) {
@@ -35,37 +36,37 @@ const getTravelSuggestion = (condition) => {
   const lowerCaseCondition = condition.toLowerCase();
 
   if (lowerCaseCondition.includes("heavy rain")) {
-    return "It's better to postpone your plans due to heavy rain.";
+    return TRANSLATE("WEATHER.HEAVY_RAIN");
   }
   if (lowerCaseCondition.includes("fog")) {
-    return "It's better to postpone your plans due to fog.";
+    return TRANSLATE("WEATHER.FOG");
   }
   if (lowerCaseCondition.includes("snow")) {
-    return "It's better to postpone your plans due to snow.";
+    return TRANSLATE("WEATHER.SNOW");
   }
   if (lowerCaseCondition.includes("thunderstorm")) {
-    return "Consider postponing your plans due to thunderstorms.";
+    return TRANSLATE("WEATHER.THUNDERSTORM");
   }
   if (lowerCaseCondition.includes("moderate rain")) {
-    return "Bring a raincoat or umbrella for moderate rain.";
+    return TRANSLATE("WEATHER.MODERATE_RAIN");
   }
   if (lowerCaseCondition.includes("light rain")) {
-    return "A light rain is expected. Carry an umbrella just in case.";
+    return TRANSLATE("WEATHER.LIGHT_RAIN");
   }
   if (lowerCaseCondition.includes("patchy rain")) {
-    return "Bring a raincoat or umbrella for patchy rain.";
+    return TRANSLATE("WEATHER.PATCHY_RAIN");
   }
   if (lowerCaseCondition.includes("clear")) {
-    return "The weather looks clear. Enjoy your day!";
+    return TRANSLATE("WEATHER.CLEAR");
   }
   if (lowerCaseCondition.includes("partly cloudy")) {
-    return "It's partly cloudy. A light jacket might be useful.";
+    return TRANSLATE("WEATHER.PARTLY_CLOUDY");
   }
   if (lowerCaseCondition.includes("overcast")) {
-    return "The sky is overcast. Dress comfortably for the cooler weather.";
+    return TRANSLATE("WEATHER.OVERCAST");
   }
 
-  return "No specific suggestions for the current weather condition.";
+  return TRANSLATE("WEATHER.DEFAULT");
 };
 
 export default function WeatherCard({ date, coordinates }) {
@@ -119,43 +120,36 @@ export default function WeatherCard({ date, coordinates }) {
       }}
       style={styles.container}
     >
-      <Text style={styles.title}>Weather Report for {date}</Text>
-      <Text style={styles.text}>
-        {weatherEmoji} Weather: {condition}
+      <Text style={styles.title}>
+        {TRANSLATE("WEATHER.WEATHER_REPORT_FOR")} {date}
       </Text>
       <Text style={styles.text}>
-        Avg Temp: {temperatureAvg}°C | Max Temp: {temperatureMax}°C | Min Temp:{" "}
-        {temperatureMin}°C
+        {weatherEmoji} {TRANSLATE("WEATHER.WEATHER")}:
+        {condition === null
+          ? TRANSLATE(`WEATHER.${condition.toUpperCase()}`)
+          : "N/A"}
+      </Text>
+      <Text style={styles.text}>
+        {TRANSLATE("WEATHER.AVG_TEMP")}: {temperatureAvg}°C |
+        {TRANSLATE("WEATHER.MAX_TEMP")}: {temperatureMax}°C |
+        {TRANSLATE("WEATHER.MIN_TEMP")}: {temperatureMin}°C
       </Text>
       {showMore && (
         <View>
-          <Text style={styles.text}>Humidity: {humidity}%</Text>
-          <Text style={styles.text}>Wind Speed: {windSpeed} km/h</Text>
-          <Text style={styles.text}>Precipitation: {precipitation} mm</Text>
+          <Text style={styles.text}>
+            {TRANSLATE("WEATHER.HUMIDITY")}: {humidity}%
+          </Text>
+          <Text style={styles.text}>
+            {TRANSLATE("WEATHER.WIND_SPEED")}: {windSpeed} km/h
+          </Text>
+          <Text style={styles.text}>
+            {TRANSLATE("WEATHER.PRECIPITATION")}: {precipitation} mm
+          </Text>
         </View>
       )}
       {travelSuggestion && (
         <Text style={styles.suggestion}>{travelSuggestion}</Text>
       )}
-      {/* <TouchableOpacity
-        onPress={() => {
-          setShowMore(!showMore);
-        }}
-        style={{
-          backgroundColor: Colors.PRIMARY,
-          justifyContent: "center",
-          alignItems: "center",
-          height: 40,
-          marginTop: 5,
-          borderRadius: 10,
-        }}
-      >
-        {showMore ? (
-          <Text style={styles.button}>View Less</Text>
-        ) : (
-          <Text style={styles.button}>View More</Text>
-        )}
-      </TouchableOpacity> */}
     </TouchableOpacity>
   );
 }

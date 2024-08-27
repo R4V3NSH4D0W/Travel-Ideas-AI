@@ -11,6 +11,7 @@ import * as SecureStore from "expo-secure-store";
 import { auth, storage } from "../configs/FirebaseConfig";
 import * as LocalAuthentication from "expo-local-authentication";
 import { EmailAuthProvider, reauthenticateWithCredential } from "firebase/auth";
+import { TRANSLATE } from "../app/i18n/translationHelper";
 
 export const uploadImageToFirebase = async (uri) => {
   const user = auth.currentUser;
@@ -46,7 +47,10 @@ export const uploadImageToFirebase = async (uri) => {
       null,
       (error) => {
         console.error("Error uploading image:", error);
-        ToastAndroid.show("Failed to upload image.", ToastAndroid.SHORT);
+        ToastAndroid.show(
+          TRANSLATE("MESSAGES.FAILED_TO_UPLOAD_IMAGE"),
+          ToastAndroid.SHORT
+        );
       },
       async () => {
         try {
@@ -55,13 +59,19 @@ export const uploadImageToFirebase = async (uri) => {
 
           return downloadURL;
         } catch (error) {
-          ToastAndroid.show("Failed to fetch image URL.", ToastAndroid.SHORT);
+          ToastAndroid.show(
+            TRANSLATE("MESSAGES.FAILED_TO_FETCH_IMAGE_URL"),
+            ToastAndroid.SHORT
+          );
           throw error;
         }
       }
     );
   } catch (error) {
-    ToastAndroid.show("Failed to upload image.", ToastAndroid.SHORT);
+    ToastAndroid.show(
+      TRANSLATE("MESSAGES.FAILED_TO_UPLOAD_IMAGE"),
+      ToastAndroid.SHORT
+    );
     throw error;
   }
 };
@@ -77,7 +87,7 @@ export const disableBiometricAuthentication = async () => {
   await SecureStore.deleteItemAsync("userEmail");
   await SecureStore.deleteItemAsync("userPassword");
   ToastAndroid.show(
-    "Biometric authentication disabled. Please re-enable to set up new credentials.",
+    TRANSLATE("MESSAGES.BIOMETRIC_AUTHENTICATION_DISABLED"),
     ToastAndroid.SHORT
   );
 };
@@ -91,7 +101,10 @@ export const verifyUserAndEnableBiometric = async (
   setPassword
 ) => {
   if (!password) {
-    ToastAndroid.show("Password is required.", ToastAndroid.SHORT);
+    ToastAndroid.show(
+      TRANSLATE("MESSAGES.PASSWORD_IS_REQUIRED"),
+      ToastAndroid.SHORT
+    );
     return;
   }
 
@@ -102,14 +115,14 @@ export const verifyUserAndEnableBiometric = async (
     const hasHardware = await LocalAuthentication.hasHardwareAsync();
     if (!hasHardware) {
       ToastAndroid.show(
-        "Biometric hardware is not available on this device.",
+        TRANSLATE("MESSAGES.BIOMETRIC_HARDWARE_NOT_AVAILABLE"),
         ToastAndroid.SHORT
       );
       return;
     }
 
     const result = await LocalAuthentication.authenticateAsync({
-      promptMessage: "Authenticate to enable biometric",
+      promptMessage: TRANSLATE("MESSAGES.AUTHENTICATE_TO_ENABLE_BIOMETRIC"),
       cancelLabel: "Cancel",
       disableDeviceFallback: true,
     });
@@ -120,14 +133,21 @@ export const verifyUserAndEnableBiometric = async (
       await SecureStore.setItemAsync("userPassword", password);
 
       setBiometricEnabled(true);
-      ToastAndroid.show("Biometric authentication enabled", ToastAndroid.SHORT);
+      ToastAndroid.show(
+        TRANSLATE("MESSAGES.BIOMETRIC_ENABLED"),
+        ToastAndroid.SHORT
+      );
     } else {
-      ToastAndroid.show("Biometric authentication failed.", ToastAndroid.SHORT);
+      ToastAndroid.show(
+        TRANSLATE("MESSAGES.BIOMETRIC_AUTHENTICATION_DISABLED"),
+        ToastAndroid.SHORT
+      );
     }
   } catch (error) {
     console.error(error);
     ToastAndroid.show(
-      "Authentication failed. Please check your password.",
+      TRANSLATE("MESSAGES.AUTHENTICATION_FAILED_CHECK_PASSWORD"),
+
       ToastAndroid.SHORT
     );
   } finally {

@@ -10,36 +10,29 @@ import HotelList from "../../componets/TripDetails/HotelList";
 import PlannedTrip from "../../componets/TripDetails/PlannedTrip";
 import HotelSkeleton from "../skeleton/hotel_skeleton";
 import WeatherSkeleton from "../skeleton/weather_Skeleton";
+import { appTranslateText } from "../../services/translationService";
+import i18next from "i18next";
+import { TRANSLATE } from "../i18n/translationHelper";
 
 const TripDetails = () => {
   const navigation = useNavigation();
   const router = useRouter();
+  const currentLanguage = i18next.language;
 
   const { trip } = useLocalSearchParams();
 
   const [tripDetails, setTripDetails] = useState(null);
   const [isEnded, setIsEnded] = useState(false);
+  const [translatedActivity, setTranslatedActivity] = useState(null);
 
   useEffect(() => {
     if (tripDetails) {
-      const data = tripDetails ? JSON.parse(tripDetails.tripData) : null;
+      const data = formatData(tripDetails?.tripData);
       const endDate = new Date(data?.endDate);
-
       const currentDate = new Date();
-
-      const isEnded = endDate < currentDate;
-      setIsEnded(isEnded);
+      setIsEnded(endDate < currentDate);
     }
   }, [tripDetails]);
-
-  const formatData = (data) => {
-    try {
-      return JSON.parse(data);
-    } catch (error) {
-      console.error("Error parsing JSON:", error);
-      return null;
-    }
-  };
 
   useEffect(() => {
     navigation.setOptions({
@@ -73,7 +66,6 @@ const TripDetails = () => {
     };
 
     handleInitialURL();
-
     const subscription = Linking.addEventListener("url", handleDeepLink);
 
     return () => {
@@ -81,13 +73,54 @@ const TripDetails = () => {
     };
   }, [router]);
 
+  useEffect(() => {
+    const translateActivityDetails = async () => {
+      try {
+        if (currentLanguage !== "en" && tripDetails) {
+          const translatedPlaceName = await appTranslateText(
+            tripDetails?.location,
+            currentLanguage
+          );
+          setTranslatedActivity({
+            location: translatedPlaceName,
+          });
+        } else {
+          setTranslatedActivity({
+            location: tripDetails?.location,
+          });
+        }
+      } catch (error) {
+        console.error("Translation failed:", error);
+        setTranslatedActivity({
+          location: tripDetails?.location,
+        });
+      }
+    };
+
+    translateActivityDetails();
+  }, [tripDetails, currentLanguage]);
+
+  const formatData = (data) => {
+    try {
+      if (typeof data === "string") {
+        return JSON.parse(data);
+      }
+      return data;
+    } catch (error) {
+      console.error("Error parsing JSON:", error);
+      return null;
+    }
+  };
+
+  const titleKey = `MISC.${formatData(
+    tripDetails?.tripData
+  )?.traveler.title.toUpperCase()}`;
+
   return (
     tripDetails && (
       <ScrollView
         style={{
-          // padding: 25,
           paddingTop: 30,
-          // height: "100%",
           backgroundColor: Colors.WHITE,
         }}
         showsVerticalScrollIndicator={false}
@@ -121,7 +154,7 @@ const TripDetails = () => {
               fontFamily: "outfit-bold",
             }}
           >
-            {tripDetails?.location}
+            {translatedActivity?.location}
           </Text>
           <View
             style={{
@@ -162,21 +195,10 @@ const TripDetails = () => {
               color: Colors.GRAY,
             }}
           >
-            🚋 {formatData(tripDetails?.tripData)?.traveler.title}
+            🚋 {TRANSLATE(titleKey)}
           </Text>
-          {/* Flight Info  */}
-          {/* <FlightInfo
-            flightData={
-              tripDetails?.tripPlan?.flightPrice ||
-              tripDetails?.tripPlan?.flight
-            }
-          /> */}
-
-          {/* Hotel LIsts  */}
 
           <HotelList hotelList={tripDetails?.tripPlan?.hotels} />
-
-          {/* Trip Day planner info */}
           <PlannedTrip
             details={tripDetails?.tripPlan?.dailyPlans}
             location={tripDetails?.location}
@@ -194,11 +216,11 @@ const TripDetails = () => {
           >
             {isEnded ? (
               <Text style={{ color: Colors.WHITE, fontSize: 18 }}>
-                The trip has ended
+                {TRANSLATE("MISC.THE_TRIP_HAS_ENDED")}
               </Text>
             ) : (
               <Text style={{ color: Colors.WHITE, fontSize: 18 }}>
-                The trip is ongoing
+                {TRANSLATE("MISC.THE_TRIP_IS_ONGOING")}
               </Text>
             )}
           </View>

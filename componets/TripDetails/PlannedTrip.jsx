@@ -5,6 +5,7 @@ import PlanCard from "./planCard";
 import { getCoordinates } from "../../services/GooglePlaceApi";
 import { fetchWeather } from "../../services/weatherReport";
 import WeatherCard from "./WeatherCard";
+import { TRANSLATE } from "../../app/i18n/translationHelper";
 
 export default function PlannedTrip({ details = [], location, tripData }) {
   const trip = JSON.parse(tripData);
@@ -44,12 +45,16 @@ export default function PlannedTrip({ details = [], location, tripData }) {
 
   const dateList = generateDateList(startDate, endDate);
 
+  function removeDayPrefix(dayString) {
+    return dayString.replace(/^Day\s/, "");
+  }
+
   return (
     <View style={{ marginTop: 10 }}>
       <Text
         style={{ fontSize: 20, fontFamily: "outfit-bold", marginBottom: 20 }}
       >
-        🔥 Plan Details
+        🔥 {TRANSLATE("MISC.PLAN_DETAILS")}
       </Text>
       {details.map((day, index) => {
         const date = dateList[index];
@@ -66,7 +71,7 @@ export default function PlannedTrip({ details = [], location, tripData }) {
                 marginBottom: 5,
               }}
             >
-              {day.day}
+              {TRANSLATE("MISC.DAY")} {removeDayPrefix(day.day)}
             </Text>
             {/* <Text
               style={{

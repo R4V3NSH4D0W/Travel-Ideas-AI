@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { StyleSheet, View, Image, Text } from "react-native";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { Colors } from "../../constants/Colors";
@@ -6,6 +6,9 @@ import BottomSheet from "@gorhom/bottom-sheet";
 import AACamera from "../../componets/camera/Camera";
 import { ScrollView } from "react-native-gesture-handler";
 import { analyzeImage } from "../../services/ImageReconizationHelpers";
+import { TRANSLATE } from "../i18n/translationHelper";
+import i18next from "i18next";
+import { appTranslateText } from "../../services/translationService";
 
 export default function ImageRecognization() {
   const [image, setImage] = useState(null);
@@ -13,6 +16,9 @@ export default function ImageRecognization() {
   const [details, setDetails] = useState("");
   const [title, setTitle] = useState("");
   const [bottomSheetIndex, setBottomSheetIndex] = useState(-1);
+  const currentLanguage = i18next.language;
+  const [translatedActivity, setTranslatedActivity] = useState(null);
+
   const MIN_HEIGHT = 300;
   const MAX_HEIGHT = 700;
 
@@ -34,10 +40,42 @@ export default function ImageRecognization() {
       <Text
         style={{ fontFamily: "outfit-bold", fontSize: 20, color: Colors.WHITE }}
       >
-        Landmark Reconization
+        {TRANSLATE("MISC.LANDMARK_DETECTION")}
       </Text>
     </View>
   );
+
+  useEffect(() => {
+    console.log("details", details);
+    const translateActivityDetails = async () => {
+      try {
+        if (currentLanguage !== "en" && details) {
+          const translatedDetail = await appTranslateText(
+            details,
+            currentLanguage
+          );
+          const translatedTitle = await appTranslateText(
+            title,
+            currentLanguage
+          );
+          setTranslatedActivity({
+            details: translatedDetail,
+            title: translatedTitle,
+          });
+        } else {
+          setTranslatedActivity({
+            details: details,
+          });
+        }
+      } catch (error) {
+        setTranslatedActivity({
+          details: details,
+        });
+      }
+    };
+
+    translateActivityDetails();
+  }, [details, currentLanguage]);
 
   return (
     <View style={styles.container}>
@@ -62,7 +100,7 @@ export default function ImageRecognization() {
                       paddingBottom: 10,
                     }}
                   >
-                    {title}
+                    {translatedActivity?.title}
                   </Text>
                   <Text
                     style={{
@@ -72,7 +110,7 @@ export default function ImageRecognization() {
                       textAlign: "justify",
                     }}
                   >
-                    {details}
+                    {translatedActivity?.details}
                   </Text>
                 </ScrollView>
               ) : (

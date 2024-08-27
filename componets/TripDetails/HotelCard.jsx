@@ -1,11 +1,19 @@
-import { View, Text, Image, Linking, TouchableOpacity } from "react-native";
+import i18next from "i18next";
 import React, { useEffect, useState } from "react";
+import { View, Text, Image, Linking, TouchableOpacity } from "react-native";
+
 import { GOOGLE_API_KEY } from "../../env";
 import { GetPhotoRef } from "../../services/GooglePlaceApi";
 import HotelSkeleton from "../../app/skeleton/hotel_skeleton";
+import { appTranslateText } from "../../services/translationService";
 
 export default function HotelCard({ item }) {
+  const currentLanguage = i18next.language;
   const [loading, setLoading] = useState(true);
+  const [translatedActivity, setTranslatedActivity] = useState(null);
+  console.log(translatedActivity);
+  console.log(item?.price);
+
   const sliceHotelText = (text, maxLength) => {
     if (!text) return "";
     if (text.length <= maxLength) return text;
@@ -35,6 +43,41 @@ export default function HotelCard({ item }) {
       );
     }
   };
+
+  useEffect(() => {
+    const translateActivityDetails = async () => {
+      try {
+        if (currentLanguage !== "en" && item) {
+          const translatedPlaceName = await appTranslateText(
+            item?.name,
+            currentLanguage
+          );
+          const translatedPrice = await appTranslateText(
+            item?.price,
+            currentLanguage
+          );
+          setTranslatedActivity({
+            name: translatedPlaceName,
+            price: translatedPrice,
+          });
+        } else {
+          setTranslatedActivity({
+            name: item?.name,
+            price: item?.price,
+          });
+        }
+      } catch (error) {
+        console.error("Translation failed:", error);
+        setTranslatedActivity({
+          name: item?.name,
+          price: item?.price,
+        });
+      }
+    };
+
+    translateActivityDetails();
+  }, [item, currentLanguage]);
+
   if (loading) {
     return <HotelSkeleton />;
   }
@@ -72,7 +115,7 @@ export default function HotelCard({ item }) {
             fontSize: 17,
           }}
         >
-          {sliceHotelText(item?.name, 17)}
+          {sliceHotelText(translatedActivity?.name, 17)}
         </Text>
         <View
           style={{
@@ -93,7 +136,7 @@ export default function HotelCard({ item }) {
               fontFamily: "outfit-regular",
             }}
           >
-            💰 {item?.price}
+            💰 {translatedActivity?.price}
           </Text>
         </View>
       </View>

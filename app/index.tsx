@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import "intl-pluralrules";
 import { Text, View } from "react-native";
 import { Redirect, useRouter } from "expo-router";
 

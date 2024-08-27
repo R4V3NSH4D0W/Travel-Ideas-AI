@@ -4,6 +4,7 @@ import { useNavigation, useRouter } from "expo-router";
 import { CreateTripContext } from "../../context/CreateTripContext";
 import { Colors } from "../../constants/Colors";
 import moment from "moment";
+import { TRANSLATE } from "../i18n/translationHelper";
 
 const ReviewTrip = () => {
   const navigation = useNavigation();
@@ -33,7 +34,7 @@ const ReviewTrip = () => {
           marginTop: 20,
         }}
       >
-        Review your Trip
+        {TRANSLATE("MISC.REVIEW_TRIP")}
       </Text>
       <View style={{ marginTop: 20 }}>
         <Text
@@ -42,7 +43,7 @@ const ReviewTrip = () => {
             fontSize: 20,
           }}
         >
-          Before generating your trip, please Review your selection
+          {TRANSLATE("MISC.REVIEW_TRIP_DESC")}
         </Text>
         {/* Destination info */}
         <View
@@ -62,7 +63,7 @@ const ReviewTrip = () => {
                 color: Colors.GRAY,
               }}
             >
-              Destination
+              {TRANSLATE("MISC.DESTINATION")}
             </Text>
             <Text
               style={{
@@ -92,7 +93,7 @@ const ReviewTrip = () => {
                 color: Colors.GRAY,
               }}
             >
-              Travel Date
+              {TRANSLATE("MISC.TRAVEL_DATE")}
             </Text>
             <Text
               style={{
@@ -125,7 +126,7 @@ const ReviewTrip = () => {
                 color: Colors.GRAY,
               }}
             >
-              Who is Traveling
+              {TRANSLATE("MISC.WHO_IS_TRAVELLING")}
             </Text>
             <Text
               style={{
@@ -133,7 +134,9 @@ const ReviewTrip = () => {
                 fontSize: 20,
               }}
             >
-              {tripData?.traveler?.title}
+              {TRANSLATE(
+                `TRAVELER.${tripData?.traveler?.id}_TITLE`
+              ).toUpperCase()}
             </Text>
           </View>
         </View>
@@ -155,7 +158,7 @@ const ReviewTrip = () => {
                 color: Colors.GRAY,
               }}
             >
-              Budget
+              {TRANSLATE("MISC.BUDGET")}
             </Text>
             <Text
               style={{
@@ -163,7 +166,7 @@ const ReviewTrip = () => {
                 fontSize: 20,
               }}
             >
-              {tripData?.budget}
+              {TRANSLATE(`MISC.${tripData?.budget.toUpperCase()}`)}
             </Text>
           </View>
         </View>
@@ -185,7 +188,7 @@ const ReviewTrip = () => {
             fontSize: 20,
           }}
         >
-          Build My trip
+          {TRANSLATE("MISC.BUILD_MY_TRIP")}
         </Text>
       </TouchableOpacity>
     </View>

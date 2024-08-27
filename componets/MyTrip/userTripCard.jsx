@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Image,
   Text,
@@ -13,9 +13,15 @@ import { Colors } from "../../constants/Colors";
 import { GOOGLE_API_KEY } from "../../env";
 import { useRouter } from "expo-router";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { TRANSLATE } from "../../app/i18n/translationHelper";
+import i18next from "i18next";
+import { appTranslateText } from "../../services/translationService";
 
 export default function UserTripCard({ trip, id, onDelete }) {
   const router = useRouter();
+  const currentLanguage = i18next.language;
+  const [translatedActivity, setTranslatedActivity] = useState(null);
+
   const formatData = (data) => JSON.parse(data);
 
   const generateLink = () => {
@@ -46,6 +52,34 @@ export default function UserTripCard({ trip, id, onDelete }) {
     }
   };
 
+  useEffect(() => {
+    const translateActivityDetails = async () => {
+      try {
+        if (currentLanguage !== "en" && trip) {
+          const translatedPlaceName = await appTranslateText(
+            trip?.location,
+            currentLanguage
+          );
+
+          setTranslatedActivity({
+            name: translatedPlaceName,
+          });
+        } else {
+          setTranslatedActivity({
+            name: trip?.location,
+          });
+        }
+      } catch (error) {
+        console.error("Translation failed:", error);
+        setTranslatedActivity({
+          name: trip?.location,
+        });
+      }
+    };
+
+    translateActivityDetails();
+  }, [trip, currentLanguage]);
+
   const renderRightActions = (progress, dragX) => (
     <View
       style={{
@@ -65,6 +99,10 @@ export default function UserTripCard({ trip, id, onDelete }) {
       </TouchableOpacity>
     </View>
   );
+
+  const tripData = formatData(trip.tripData);
+  const traveler = tripData?.traveler;
+  const travelerTitleKey = traveler ? `TRAVELER.${traveler.id}_TITLE` : "N/A";
 
   return (
     <Swipeable renderRightActions={renderRightActions}>
@@ -89,7 +127,7 @@ export default function UserTripCard({ trip, id, onDelete }) {
           source={{
             uri:
               "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=" +
-              formatData(trip.tripData).locationInfo?.photoRef +
+              tripData?.locationInfo?.photoRef +
               "&key=" +
               GOOGLE_API_KEY,
           }}
@@ -101,7 +139,7 @@ export default function UserTripCard({ trip, id, onDelete }) {
         />
         <View>
           <Text style={{ fontFamily: "outfit-medium", fontSize: 18 }}>
-            {trip?.location}
+            {translatedActivity?.name}
           </Text>
           <Text
             style={{
@@ -110,7 +148,7 @@ export default function UserTripCard({ trip, id, onDelete }) {
               color: Colors.GRAY,
             }}
           >
-            {moment(formatData(trip.tripData)?.startDate).format("DD MMM yyyy")}
+            {moment(tripData?.startDate).format("DD MMM yyyy")}
           </Text>
           <Text
             style={{
@@ -119,7 +157,7 @@ export default function UserTripCard({ trip, id, onDelete }) {
               color: Colors.GRAY,
             }}
           >
-            Travelling: {formatData(trip?.tripData).traveler?.title}
+            {TRANSLATE("MISC.TRAVELLING")}: {TRANSLATE(travelerTitleKey)}
           </Text>
         </View>
       </TouchableOpacity>

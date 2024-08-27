@@ -1,4 +1,3 @@
-// src/components/ActivityCard.js
 import React, { useEffect, useState } from "react";
 import {
   View,
@@ -12,13 +11,35 @@ import Ionicons from "@expo/vector-icons/Ionicons";
 import { Colors } from "../../constants/Colors";
 import { GetPhotoRef } from "../../services/GooglePlaceApi";
 import { GOOGLE_API_KEY } from "../../env";
+import { TRANSLATE } from "../../app/i18n/translationHelper";
+import i18next from "i18next";
 
+import { appTranslateText } from "../../services/translationService";
 const PlanCard = ({ activity, location }) => {
   const [photoRef, setPhotoRef] = useState();
+  const [translatedActivity, setTranslatedActivity] = useState({});
+  const currentLanguage = i18next.language;
 
   useEffect(() => {
-    GetGooglePhotoRef();
-  }, [activity?.placeName]);
+    const fetchData = async () => {
+      try {
+        await GetGooglePhotoRef();
+        if (currentLanguage !== "en") {
+          await translateActivityDetails();
+        } else {
+          setTranslatedActivity(activity);
+        }
+      } catch (error) {
+        setTranslatedActivity(activity);
+      } finally {
+        setLoading(false);
+      }
+    };
+    // HOLD TO PREVENT UNNECESSAY CALLS !activity
+    if (activity) {
+      fetchData();
+    }
+  }, [activity, currentLanguage]);
 
   const GetGooglePhotoRef = async () => {
     try {
@@ -29,9 +50,39 @@ const PlanCard = ({ activity, location }) => {
     }
   };
 
+  const translateActivityDetails = async () => {
+    try {
+      const translatedPlaceName = await appTranslateText(
+        activity?.placeName,
+        currentLanguage
+      );
+      const translatedPlaceDetails = await appTranslateText(
+        activity?.placeDetails,
+        currentLanguage
+      );
+      const translatedTicketPricing = await appTranslateText(
+        activity?.ticketPricing,
+        currentLanguage
+      );
+      const translatedTimeToTravel = await appTranslateText(
+        activity?.timeToTravelBetweenPlaces || "N/A",
+        currentLanguage
+      );
+
+      setTranslatedActivity({
+        placeName: translatedPlaceName,
+        placeDetails: translatedPlaceDetails,
+        ticketPricing: translatedTicketPricing,
+        timeToTravelBetweenPlaces: translatedTimeToTravel,
+      });
+    } catch (error) {
+      setTranslatedActivity(activity);
+    }
+  };
+
   const handleNavigate = () => {
-    if (activity?.placeName) {
-      const placeName = encodeURIComponent(activity.placeName);
+    if (translatedActivity?.placeName) {
+      const placeName = encodeURIComponent(translatedActivity.placeName);
       const query = `${placeName},${location}`;
 
       const googleMapsUrl = `google.navigation:q=${query}`;
@@ -70,18 +121,20 @@ const PlanCard = ({ activity, location }) => {
         style={styles.image}
         resizeMode="cover"
       />
-      <Text style={styles.placeName}>{activity.placeName}</Text>
-      <Text style={styles.placeDetails}>{activity.placeDetails}</Text>
+      <Text style={styles.placeName}>{translatedActivity.placeName}</Text>
+      <Text style={styles.placeDetails}>{translatedActivity.placeDetails}</Text>
       <View style={styles.infoContainer}>
         <View>
           <Text style={styles.infoText}>
-            🎟️ Ticket Price:{" "}
-            <Text style={styles.boldText}>{activity.ticketPricing}</Text>
+            🎟️ {TRANSLATE("MISC.TICKET_PRICE")}:{" "}
+            <Text style={styles.boldText}>
+              {translatedActivity.ticketPricing}
+            </Text>
           </Text>
           <Text style={styles.infoText}>
-            🕑 Time to Travel:{" "}
+            🕑 {TRANSLATE("MISC.TIME_TO_TRAVEL")}:{" "}
             <Text style={styles.boldText}>
-              {activity.timeToTravelBetweenPlaces || "N/A"}
+              {translatedActivity.timeToTravelBetweenPlaces}
             </Text>
           </Text>
         </View>

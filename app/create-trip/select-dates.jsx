@@ -11,9 +11,12 @@ import { Colors } from "../../constants/Colors";
 import CalendarPicker from "react-native-calendar-picker";
 import moment from "moment";
 import { CreateTripContext } from "../../context/CreateTripContext";
+import { TRANSLATE } from "../i18n/translationHelper";
 
 const SelectDate = () => {
   const { tripData, setTripData } = useContext(CreateTripContext);
+  console.log("tripData", tripData);
+
   const navigation = useNavigation();
   const [startDate, setStartDate] = useState();
   const [endDate, setEndDate] = useState();
@@ -37,7 +40,10 @@ const SelectDate = () => {
   };
   const onDateSelectionContinue = () => {
     if (!startDate || !endDate) {
-      ToastAndroid.show("Please select start and end date", ToastAndroid.LONG);
+      ToastAndroid.show(
+        TRANSLATE("ALERT.PLEASE_SELECT_START_AND_END_DATE"),
+        ToastAndroid.LONG
+      );
       return;
     }
     const totalNoOfDays = endDate.diff(startDate, "days");
@@ -65,7 +71,7 @@ const SelectDate = () => {
           fontFamily: "outfit-bold",
         }}
       >
-        Travel Dates
+        {TRANSLATE("MISC.TRAVEL_DATE")}
       </Text>
       <View style={{ marginTop: 30 }}>
         <CalendarPicker
@@ -98,7 +104,7 @@ const SelectDate = () => {
             fontSize: 20,
           }}
         >
-          Continue
+          {TRANSLATE("MISC.CONTINUE")}
         </Text>
       </TouchableOpacity>
     </View>

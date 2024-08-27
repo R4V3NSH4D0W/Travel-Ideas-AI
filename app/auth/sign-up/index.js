@@ -18,6 +18,7 @@ import { useRouter } from "expo-router";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from "../../../configs/FirebaseConfig";
+import { TRANSLATE } from "../../i18n/translationHelper";
 
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -28,16 +29,16 @@ const validatePassword = (password) => {
   const hasNumber = /\d/.test(password);
 
   if (password.length < minLength) {
-    return "Password must be at least 7 characters long";
+    return TRANSLATE("AUTH.PASSWORD_TOO_SHORT");
   }
   if (!hasUppercase) {
-    return "Password must contain at least one uppercase letter";
+    return TRANSLATE("AUTH.PASSWORD_NO_UPPERCASE");
   }
   if (!hasSpecialChar) {
-    return "Password must contain at least one special character";
+    return TRANSLATE("AUTH.PASSWORD_NO_SPECIAL_CHAR");
   }
   if (!hasNumber) {
-    return "Password must contain at least one number";
+    return TRANSLATE("AUTH.PASSWORD_NO_NUMBER");
   }
   return "";
 };
@@ -52,12 +53,12 @@ export default function SignUp() {
 
   const OnCreateAccount = () => {
     if (!email || !password || !fullName) {
-      ToastAndroid.show("Please enter all details", ToastAndroid.LONG);
+      ToastAndroid.show(TRANSLATE("AUTH.ENTER_ALL_DETAILS"), ToastAndroid.LONG);
       return;
     }
 
     if (!emailRegex.test(email)) {
-      ToastAndroid.show("Invalid email address", ToastAndroid.LONG);
+      ToastAndroid.show(TRANSLATE("AUTH.INVALID_EMAIL"), ToastAndroid.LONG);
       return;
     }
 
@@ -76,7 +77,7 @@ export default function SignUp() {
           displayName: fullName,
         }).then(() => {
           ToastAndroid.show(
-            "Your account has been created",
+            TRANSLATE("AUTH.ACCOUNT_CREATED"),
             ToastAndroid.SHORT
           );
 
@@ -91,7 +92,7 @@ export default function SignUp() {
         const errorMessage = error.message;
 
         if (errorCode === "auth/email-already-in-use") {
-          ToastAndroid.show("Email is already in use", ToastAndroid.LONG);
+          ToastAndroid.show(TRANSLATE("AUTH.EMAIL_IN_USE"), ToastAndroid.LONG);
         } else {
           ToastAndroid.show(errorMessage, ToastAndroid.LONG);
         }
@@ -120,14 +121,16 @@ export default function SignUp() {
           <Text
             style={{ fontFamily: "outfit-bold", fontSize: 30, marginTop: 30 }}
           >
-            Create New Account
+            {TRANSLATE("AUTH.CREATE_ACCOUNT")}
           </Text>
           {/* User Full name */}
           <View style={{ marginTop: 50 }}>
-            <Text style={{ fontFamily: "outfit-regular" }}>User Full Name</Text>
+            <Text style={{ fontFamily: "outfit-regular" }}>
+              {TRANSLATE("AUTH.USER_FULL_NAME")}
+            </Text>
             <TextInput
               style={styles.input}
-              placeholder="Enter Full Name"
+              placeholder={TRANSLATE("AUTH.ENTER_FULL_NAME")}
               onChangeText={(value) => setFullName(value)}
               value={fullName}
             />
@@ -135,10 +138,12 @@ export default function SignUp() {
 
           {/* Email */}
           <View style={{ marginTop: 20 }}>
-            <Text style={{ fontFamily: "outfit-regular" }}>Email</Text>
+            <Text style={{ fontFamily: "outfit-regular" }}>
+              {TRANSLATE("AUTH.EMAIL")}
+            </Text>
             <TextInput
               style={styles.input}
-              placeholder="Enter Email"
+              placeholder={TRANSLATE("AUTH.ENTER_EMAIL")}
               onChangeText={(value) => setEmail(value)}
               value={email}
               keyboardType="email-address"
@@ -146,12 +151,14 @@ export default function SignUp() {
           </View>
           {/* Password */}
           <View style={{ marginTop: 20 }}>
-            <Text style={{ fontFamily: "outfit-regular" }}>Password</Text>
+            <Text style={{ fontFamily: "outfit-regular" }}>
+              {TRANSLATE("AUTH.PASSWORD")}
+            </Text>
             <View style={styles.passwordContainer}>
               <TextInput
                 secureTextEntry={!showPassword}
                 style={[styles.passwordInput, { flex: 1 }]}
-                placeholder="Enter Password"
+                placeholder={TRANSLATE("AUTH.ENTER_PASSWORD")}
                 onChangeText={(value) => setPassword(value)}
                 value={password}
               />
@@ -176,7 +183,7 @@ export default function SignUp() {
             }}
           >
             <Text style={{ color: Colors.WHITE, textAlign: "center" }}>
-              Create Account
+              {TRANSLATE("AUTH.CREATE_ACCOUNT")}
             </Text>
           </TouchableOpacity>
 
@@ -192,7 +199,7 @@ export default function SignUp() {
             }}
           >
             <Text style={{ color: Colors.PRIMARY, textAlign: "center" }}>
-              Sign up
+              {TRANSLATE("AUTH.SIGN_UP")}
             </Text>
           </TouchableOpacity>
 
