@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import moment from "moment";
 import { Colors } from "../../constants/Colors";
@@ -6,9 +6,42 @@ import UserTripCard from "./userTripCard";
 import { GOOGLE_API_KEY } from "../../env";
 import { useRouter } from "expo-router";
 import { TRANSLATE } from "../../app/i18n/translationHelper";
+import i18next from "i18next";
+import { appTranslateText } from "../../services/translationService";
 
 export default function UserTripList({ userTrips, setUserTrips, onDelete }) {
   const router = useRouter();
+
+  const currentLanguage = i18next.language;
+  const [translatedActivity, setTranslatedActivity] = useState(null);
+  // console.log(translatedActivity);
+  useEffect(() => {
+    const translateActivityDetails = async () => {
+      try {
+        if (currentLanguage !== "en" && userTrips) {
+          const translatedPlaceName = await appTranslateText(
+            LatestTrip?.locationInfo?.name,
+            currentLanguage
+          );
+
+          setTranslatedActivity({
+            name: translatedPlaceName,
+          });
+        } else {
+          setTranslatedActivity({
+            name: LatestTrip?.locationInfo?.name,
+          });
+        }
+      } catch (error) {
+        console.error("Translation failed:", error);
+        setTranslatedActivity({
+          name: LatestTrip?.locationInfo?.name,
+        });
+      }
+    };
+
+    translateActivityDetails();
+  }, [userTrips, currentLanguage]);
 
   const LatestTrip =
     userTrips.length > 0
@@ -48,7 +81,7 @@ export default function UserTripList({ userTrips, setUserTrips, onDelete }) {
 
         <View style={{ marginTop: 10 }}>
           <Text style={{ fontFamily: "outfit-medium", fontSize: 20 }}>
-            {LatestTrip?.locationInfo?.name || "Location Name"}
+            {translatedActivity?.name}
           </Text>
           <View
             style={{

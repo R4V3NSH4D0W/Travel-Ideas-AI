@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Image,
   Text,
@@ -14,9 +14,15 @@ import { GOOGLE_API_KEY } from "../../env";
 import { useRouter } from "expo-router";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { TRANSLATE } from "../../app/i18n/translationHelper";
+import i18next from "i18next";
+import { appTranslateText } from "../../services/translationService";
 
 export default function UserTripCard({ trip, id, onDelete }) {
   const router = useRouter();
+  const currentLanguage = i18next.language;
+  const [translatedActivity, setTranslatedActivity] = useState(null);
+  console.log("translatedActivity", translatedActivity);
+
   const formatData = (data) => JSON.parse(data);
 
   const generateLink = () => {
@@ -46,6 +52,34 @@ export default function UserTripCard({ trip, id, onDelete }) {
       alert(error.message);
     }
   };
+
+  useEffect(() => {
+    const translateActivityDetails = async () => {
+      try {
+        if (currentLanguage !== "en" && trip) {
+          const translatedPlaceName = await appTranslateText(
+            trip?.location,
+            currentLanguage
+          );
+
+          setTranslatedActivity({
+            name: translatedPlaceName,
+          });
+        } else {
+          setTranslatedActivity({
+            name: trip?.location,
+          });
+        }
+      } catch (error) {
+        console.error("Translation failed:", error);
+        setTranslatedActivity({
+          name: trip?.location,
+        });
+      }
+    };
+
+    translateActivityDetails();
+  }, [trip, currentLanguage]);
 
   const renderRightActions = (progress, dragX) => (
     <View
@@ -106,7 +140,7 @@ export default function UserTripCard({ trip, id, onDelete }) {
         />
         <View>
           <Text style={{ fontFamily: "outfit-medium", fontSize: 18 }}>
-            {trip?.location}
+            {translatedActivity?.name}
           </Text>
           <Text
             style={{

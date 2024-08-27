@@ -27,6 +27,7 @@ import { TRANSLATE } from "../i18n/translationHelper";
 export default function MyTrip() {
   const [userTrips, setUserTrips] = useState([]);
   const [loading, setLoading] = useState(false);
+
   const router = useRouter();
   const user = auth.currentUser;
 

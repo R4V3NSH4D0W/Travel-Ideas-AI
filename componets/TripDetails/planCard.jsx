@@ -36,7 +36,7 @@ const PlanCard = ({ activity, location }) => {
       }
     };
     // HOLD TO PREVENT UNNECESSAY CALLS !activity
-    if (activity) {
+    if (!activity) {
       fetchData();
     }
   }, [activity, currentLanguage]);

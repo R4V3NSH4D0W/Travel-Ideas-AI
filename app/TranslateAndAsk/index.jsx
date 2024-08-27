@@ -19,6 +19,7 @@ import { Colors } from "../../constants/Colors";
 import { translateText } from "../../services/translationService";
 import { useRouter } from "expo-router";
 import { languageOptions } from "../../constants/Options";
+import { TRANSLATE } from "../i18n/translationHelper";
 
 const TranslateScreen = () => {
   const [text, setText] = useState("");
@@ -59,7 +60,7 @@ const TranslateScreen = () => {
 
   const copyToClipboard = (textToCopy) => {
     Clipboard.setString(textToCopy);
-    ToastAndroid.show("Text copied to clipboard", ToastAndroid.SHORT);
+    ToastAndroid.show(TRANSLATE("MESSAGES.COPIED"), ToastAndroid.SHORT);
   };
 
   const Header = () => (
@@ -67,7 +68,7 @@ const TranslateScreen = () => {
       <TouchableOpacity onPress={() => router.back()} style={styles.icon}>
         <Ionicons name="arrow-back" size={24} color="black" />
       </TouchableOpacity>
-      <Text style={styles.title}>Translate</Text>
+      <Text style={styles.title}>{TRANSLATE("MISC.TRANSLATE")}</Text>
     </View>
   );
 
@@ -164,7 +165,7 @@ const TranslateScreen = () => {
         style={styles.translateButton}
         onPress={handleTranslate}
       >
-        <Text style={styles.buttonText}>Translate</Text>
+        <Text style={styles.buttonText}>{TRANSLATE("MISC.TRANSLATE")}</Text>
       </TouchableOpacity>
     </View>
   );

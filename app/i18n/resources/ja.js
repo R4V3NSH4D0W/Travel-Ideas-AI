@@ -1,3 +1,5 @@
+import { TRANSLATE } from "../translationHelper";
+
 export default {
   STARTING: {
     AI_TRAVEL_PLANNER: "AIトラベルプランナー",
@@ -40,6 +42,7 @@ export default {
     ACCOUNT_CREATED: "アカウントが作成されました",
     EMAIL_IN_USE: "メールアドレスはすでに使用されています",
     LOGOUT: "ログアウト",
+    ENTER_YOUR_PASSWORD: "パスワードを入力してください",
   },
   MISC: {
     SEARCH_PLACE: "場所を検索",
@@ -50,7 +53,7 @@ export default {
     LANGUAGE_TRANSLATOR: "言語翻訳",
     WHO_IS_TRAVELLING: "誰が旅行しますか",
     CHOOSE_TRAVELER: "旅行者を選んでください",
-    JUST_ME: "私だけ",
+    "JUST ME": "私だけ",
     COUPLE: "カップル",
     FAMILY: "家族",
     FRIENDS: "友達",
@@ -82,6 +85,9 @@ export default {
     PLAN_DETAILS: "プランの詳細",
     HOTEL_RECOMMENDATION: "ホテルのおすすめ",
     DAY: "日",
+    THE_TRIP_HAS_ENDED: "旅行が終了しました",
+    THE_TRIP_IS_ONGOING: "旅行は続行中です",
+    TRANSLATE: "翻訳",
   },
   TRAVELER: {
     "1_TITLE": "一人",
@@ -137,5 +143,39 @@ export default {
     "PARTLY CLOUDY": "一部曇り",
     OVERCAST: "曇り",
     SUNNY: "晴れ",
+  },
+  MESSAGES: {
+    LOGOUT_SUCCESS: "ログアウトしました。",
+    LOGOUT_ERROR: "ログアウト中にエラーが発生しました。",
+    SELECT_IMAGE: "画像を選択",
+    CHOOSE_OPTION: "オプションを選択",
+    CAMERA: "カメラ",
+    GALLERY: "ギャラリー",
+    CANCEL: "キャンセル",
+    GALLERY_PERMISSION_REQUIRED: "ギャラリーへのアクセス許可が必要です！",
+    PROFILE_IMAGE_UPDATED: "プロフィール画像が正常に更新されました！",
+    PROFILE_IMAGE_UPDATE_FAILED: "プロフィール画像の更新に失敗しました。",
+    CAMERA_PERMISSION_REQUIRED: "カメラへのアクセス許可が必要です！",
+    ENABLE_DISABLE_BIO: "生体認証を有効/無効にする",
+    ENTER_YOUR_PASSWORD: "パスワードを入力してください",
+    PASSWORD: "パスワード",
+    FAILED_TO_DELETE_EXISTING_IMAGES: "既存の画像を削除できませんでした。",
+    ERROR_UPLOADING_IMAGE: "画像のアップロード中にエラーが発生しました。",
+    FAILED_TO_UPLOAD_IMAGE: "画像のアップロードに失敗しました。",
+    FAILED_TO_FETCH_IMAGE_URL: "画像URLの取得に失敗しました。",
+    BIOMETRIC_ENABLED: "生体認証が有効になりました。",
+    USER_EMAIL: "ユーザーのメール",
+    USER_PASSWORD: "ユーザーパスワード",
+    BIOMETRIC_AUTHENTICATION_DISABLED:
+      "生体認証が無効になりました。新しい認証情報を設定するために再度有効にしてください。",
+    PASSWORD_IS_REQUIRED: "パスワードが必要です。",
+    BIOMETRIC_HARDWARE_NOT_AVAILABLE:
+      "このデバイスでは生体認証ハードウェアが利用できません。",
+    AUTHENTICATE_TO_ENABLE_BIOMETRIC:
+      "生体認証を有効にするために認証してください。",
+    BIOMETRIC_AUTHENTICATION_FAILED: "生体認証に失敗しました。",
+    AUTHENTICATION_FAILED_CHECK_PASSWORD:
+      "認証に失敗しました。パスワードを確認してください。",
+    COPIED: "テキストがクリップボードにコピーされました",
   },
 };

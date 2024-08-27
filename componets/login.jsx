@@ -17,9 +17,10 @@ const { height, width } = Dimensions.get("window");
 export default function Login() {
   const router = useRouter();
   const { i18n } = useTranslation();
+  console.log("i18n", i18n.language);
 
   return (
-    <View key={i18n.language}>
+    <View>
       <Image
         style={{ width: width, height: 450 }}
         source={require("../assets/images/login.jpg")}

@@ -53,13 +53,16 @@ export default function Profile() {
   const handleLogout = () => {
     signOut(auth)
       .then(() => {
-        ToastAndroid.show("You have been logged out.", ToastAndroid.SHORT);
+        ToastAndroid.show(
+          TRANSLATE("MESSAGES.LOGOUT_SUCCESS"),
+          ToastAndroid.SHORT
+        );
         router.replace("/auth/sign-in");
       })
       .catch((error) => {
         console.error(error);
         ToastAndroid.show(
-          "An error occurred while logging out.",
+          TRANSLATE("MESSAGES.LOGOUT_ERROR"),
           ToastAndroid.SHORT
         );
       });
@@ -67,12 +70,12 @@ export default function Profile() {
 
   const pickImage = async () => {
     Alert.alert(
-      "Select Image",
-      "Choose an option",
+      TRANSLATE("MESSAGES.SELECT_IMAGE"),
+      TRANSLATE("MESSAGES.CHOOSE_OPTION"),
       [
-        { text: "Camera", onPress: openCamera },
-        { text: "Gallery", onPress: openGallery },
-        { text: "Cancel", style: "cancel" },
+        { text: TRANSLATE("MESSAGES.CAMERA"), onPress: openCamera },
+        { text: TRANSLATE("MESSAGES.GALLERY"), onPress: openGallery },
+        { text: TRANSLATE("MESSAGES.CANCEL"), style: "cancel" },
       ],
       { cancelable: true }
     );
@@ -82,7 +85,7 @@ export default function Profile() {
     let result = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (result.granted === false) {
       ToastAndroid.show(
-        "Permission to access gallery is required!",
+        TRANSLATE("MESSAGES.GALLERY_PERMISSION_REQUIRED"),
         ToastAndroid.SHORT
       );
       return;
@@ -104,12 +107,12 @@ export default function Profile() {
           const downloadURL = await uploadImageToFirebase(selectedImageUri);
           await updateProfile(user, { photoURL: downloadURL });
           ToastAndroid.show(
-            "Profile image updated successfully!",
+            TRANSLATE("MESSAGES.PROFILE_IMAGE_UPDATED"),
             ToastAndroid.SHORT
           );
         } catch (error) {
           ToastAndroid.show(
-            "Failed to update profile image.",
+            TRANSLATE("MESSAGES.PROFILE_IMAGE_UPDATE_FAILED"),
             ToastAndroid.SHORT
           );
         }
@@ -121,7 +124,7 @@ export default function Profile() {
     let result = await ImagePicker.requestCameraPermissionsAsync();
     if (result.granted === false) {
       ToastAndroid.show(
-        "Permission to access camera is required!",
+        TRANSLATE("MESSAGES.CAMERA_PERMISSION_REQUIRED"),
         ToastAndroid.SHORT
       );
       return;
@@ -337,10 +340,12 @@ export default function Profile() {
               behavior={Platform.OS === "ios" ? "padding" : "height"}
               style={styles.modalContent}
             >
-              <Text style={styles.modalTitle}>Enter Your Password</Text>
+              <Text style={styles.modalTitle}>
+                {TRANSLATE("AUTH.ENTER_YOUR_PASSWORD")}
+              </Text>
               <TextInput
                 style={styles.modalInput}
-                placeholder="Password"
+                placeholder={TRANSLATE("AUTH.PASSWORD")}
                 secureTextEntry
                 value={password}
                 onChangeText={setPassword}
