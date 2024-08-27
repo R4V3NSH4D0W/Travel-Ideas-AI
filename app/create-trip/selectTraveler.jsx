@@ -11,6 +11,7 @@ import { Colors } from "../../constants/Colors";
 import { SelectTravelerList } from "../../constants/Options";
 import OptionCard from "../../componets/CreateTrip/OptionCard";
 import { CreateTripContext } from "../../context/CreateTripContext";
+import { TRANSLATE } from "../i18n/translationHelper";
 export default function SelectTraveler() {
   const navigation = useNavigation();
   const [selectedTraveler, setSelectedTraveler] = useState();
@@ -33,7 +34,10 @@ export default function SelectTraveler() {
 
   const onContinuePress = () => {
     if (!selectedTraveler) {
-      ToastAndroid.show("Please select a traveler", ToastAndroid.LONG);
+      ToastAndroid.show(
+        TRANSLATE("ALERT.PLEASE_SELECT_TRAVELER"),
+        ToastAndroid.LONG
+      );
       return;
     }
 
@@ -50,11 +54,11 @@ export default function SelectTraveler() {
       }}
     >
       <Text style={{ fontSize: 30, fontFamily: "outfit-bold", marginTop: 20 }}>
-        Who's Travelling
+        {TRANSLATE("MISC.WHO_IS_TRAVELLING")}
       </Text>
       <View style={{ marginTop: 20 }}>
         <Text style={{ fontFamily: "outfit-bold", fontSize: 23 }}>
-          Choose your travelers
+          {TRANSLATE("MISC.CHOOSE_TRAVELER")}
         </Text>
         <FlatList
           data={SelectTravelerList}
@@ -65,7 +69,12 @@ export default function SelectTraveler() {
               }}
               style={{ marginVertical: 10 }}
             >
-              <OptionCard option={item} selectedOption={selectedTraveler} />
+              <OptionCard
+                option={item}
+                title={TRANSLATE(`TRAVELER.${item.id}_TITLE`)}
+                desc={TRANSLATE(`TRAVELER.${item.id}_DESC`)}
+                selectedOption={selectedTraveler}
+              />
             </TouchableOpacity>
           )}
         />
@@ -87,7 +96,7 @@ export default function SelectTraveler() {
             fontSize: 20,
           }}
         >
-          Continue
+          {TRANSLATE("MISC.CONTINUE")}
         </Text>
       </TouchableOpacity>
     </View>

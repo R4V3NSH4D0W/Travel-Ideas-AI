@@ -2,7 +2,7 @@ import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { Colors } from "../../constants/Colors";
 
-const OptionCard = ({ option, selectedOption }) => {
+const OptionCard = ({ option, title, desc, selectedOption }) => {
   return (
     <View
       style={[
@@ -24,7 +24,8 @@ const OptionCard = ({ option, selectedOption }) => {
             fontFamily: "outfit-bold",
           }}
         >
-          {option?.title}
+          {/* {option?.title} */}
+          {title}
         </Text>
         <Text
           style={{
@@ -33,7 +34,7 @@ const OptionCard = ({ option, selectedOption }) => {
             fontFamily: "outfit-regular",
           }}
         >
-          {option?.desc}
+          {desc}
         </Text>
       </View>
       <Text style={{ fontSize: 40 }}>{option?.icon}</Text>

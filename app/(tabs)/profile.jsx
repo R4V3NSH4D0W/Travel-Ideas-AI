@@ -28,6 +28,7 @@ import {
 import { Colors } from "../../constants/Colors";
 import { auth } from "../../configs/FirebaseConfig";
 import { signOut, updateProfile } from "firebase/auth";
+import { TRANSLATE } from "../i18n/translationHelper";
 
 export default function Profile() {
   const [image, setImage] = useState(auth.currentUser?.photoURL);
@@ -178,7 +179,9 @@ export default function Profile() {
       }}
     >
       <View style={{ display: "flex", alignItems: "center" }}>
-        <Text style={{ fontSize: 24, fontFamily: "outfit-bold" }}>Profile</Text>
+        <Text style={{ fontSize: 24, fontFamily: "outfit-bold" }}>
+          {TRANSLATE("MISC.PROFILE")}
+        </Text>
         <TouchableOpacity
           style={{
             width: 100,
@@ -233,7 +236,7 @@ export default function Profile() {
         }}
       >
         <Text style={{ fontFamily: "outfit-regular", fontSize: 16 }}>
-          Enable/ Disable Biometric
+          {TRANSLATE("MISC.ENABLE_DISABLE_BIO")}
         </Text>
         <Switch
           value={biometricEnabled}
@@ -262,7 +265,7 @@ export default function Profile() {
             fontFamily: "outfit-regular",
           }}
         >
-          Landmark Detection
+          {TRANSLATE("MISC.LANDMARK_DETECTION")}
         </Text>
       </TouchableOpacity>
       <TouchableOpacity
@@ -284,7 +287,7 @@ export default function Profile() {
             fontFamily: "outfit-regular",
           }}
         >
-          Language Translator
+          {TRANSLATE("MISC.LANGUAGE_TRANSLATOR")}
         </Text>
       </TouchableOpacity>
 
@@ -305,7 +308,7 @@ export default function Profile() {
             fontFamily: "outfit-regular",
           }}
         >
-          Logout
+          {TRANSLATE("AUTH.LOGOUT")}
         </Text>
       </TouchableOpacity>
 

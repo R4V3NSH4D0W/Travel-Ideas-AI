@@ -7,9 +7,11 @@ import { chatSession } from "../../configs/AiModal";
 import { useRouter } from "expo-router";
 import { auth, db } from "../../configs/FirebaseConfig";
 import { doc, setDoc } from "firebase/firestore";
+import { TRANSLATE } from "../i18n/translationHelper";
 
 const GenerateTrip = () => {
   const { tripData, setTripData } = useContext(CreateTripContext);
+  console.log("FINAL", tripData);
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const user = auth.currentUser;
@@ -70,7 +72,7 @@ const GenerateTrip = () => {
           textAlign: "center",
         }}
       >
-        Please wait...
+        {TRANSLATE("MISC.PLEASE_WAIT")}
       </Text>
       <Text
         style={{
@@ -80,7 +82,7 @@ const GenerateTrip = () => {
           fontFamily: "outfit-bold",
         }}
       >
-        We are working to generate your dream trip
+        {TRANSLATE("MISC.WE_ARE_WORKING")}
       </Text>
       <Image
         source={require("../../assets/images/loading.gif")}
@@ -94,7 +96,7 @@ const GenerateTrip = () => {
           textAlign: "center",
         }}
       >
-        Do not Go Back
+        {TRANSLATE("MISC.DONT_GO_BACK")}
       </Text>
     </View>
   );

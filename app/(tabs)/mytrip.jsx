@@ -22,6 +22,7 @@ import {
 import { db, auth } from "../../configs/FirebaseConfig";
 import { useRouter } from "expo-router";
 import { Colors } from "../../constants/Colors";
+import { TRANSLATE } from "../i18n/translationHelper";
 
 export default function MyTrip() {
   const [userTrips, setUserTrips] = useState([]);
@@ -74,7 +75,7 @@ export default function MyTrip() {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.title}>My Trips</Text>
+        <Text style={styles.title}>{TRANSLATE("MISC.MY_TRIPS")}</Text>
         <TouchableOpacity
           onPress={() => router.push("/create-trip/search-place")}
         >

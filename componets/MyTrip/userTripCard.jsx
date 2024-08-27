@@ -13,6 +13,7 @@ import { Colors } from "../../constants/Colors";
 import { GOOGLE_API_KEY } from "../../env";
 import { useRouter } from "expo-router";
 import Ionicons from "@expo/vector-icons/Ionicons";
+import { TRANSLATE } from "../../app/i18n/translationHelper";
 
 export default function UserTripCard({ trip, id, onDelete }) {
   const router = useRouter();
@@ -66,6 +67,10 @@ export default function UserTripCard({ trip, id, onDelete }) {
     </View>
   );
 
+  const tripData = formatData(trip.tripData);
+  const traveler = tripData?.traveler;
+  const travelerTitleKey = traveler ? `TRAVELER.${traveler.id}_TITLE` : "N/A";
+
   return (
     <Swipeable renderRightActions={renderRightActions}>
       <TouchableOpacity
@@ -89,7 +94,7 @@ export default function UserTripCard({ trip, id, onDelete }) {
           source={{
             uri:
               "https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=" +
-              formatData(trip.tripData).locationInfo?.photoRef +
+              tripData?.locationInfo?.photoRef +
               "&key=" +
               GOOGLE_API_KEY,
           }}
@@ -110,7 +115,7 @@ export default function UserTripCard({ trip, id, onDelete }) {
               color: Colors.GRAY,
             }}
           >
-            {moment(formatData(trip.tripData)?.startDate).format("DD MMM yyyy")}
+            {moment(tripData?.startDate).format("DD MMM yyyy")}
           </Text>
           <Text
             style={{
@@ -119,7 +124,7 @@ export default function UserTripCard({ trip, id, onDelete }) {
               color: Colors.GRAY,
             }}
           >
-            Travelling: {formatData(trip?.tripData).traveler?.title}
+            {TRANSLATE("MISC.TRAVELLING")}: {TRANSLATE(travelerTitleKey)}
           </Text>
         </View>
       </TouchableOpacity>

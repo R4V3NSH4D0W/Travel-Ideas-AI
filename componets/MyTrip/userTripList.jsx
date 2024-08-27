@@ -5,6 +5,7 @@ import { Colors } from "../../constants/Colors";
 import UserTripCard from "./userTripCard";
 import { GOOGLE_API_KEY } from "../../env";
 import { useRouter } from "expo-router";
+import { TRANSLATE } from "../../app/i18n/translationHelper";
 
 export default function UserTripList({ userTrips, setUserTrips, onDelete }) {
   const router = useRouter();
@@ -75,7 +76,8 @@ export default function UserTripList({ userTrips, setUserTrips, onDelete }) {
                 color: Colors.GRAY,
               }}
             >
-              🚋 {LatestTrip?.traveler?.title || "Traveler"}
+              🚋
+              {TRANSLATE(`MISC.${LatestTrip?.traveler?.title.toUpperCase()}`)}
             </Text>
           </View>
           <TouchableOpacity
@@ -102,7 +104,7 @@ export default function UserTripList({ userTrips, setUserTrips, onDelete }) {
                 textAlign: "center",
               }}
             >
-              See your plan
+              {TRANSLATE("MISC.SEE_YOUR_PLAN")}
             </Text>
           </TouchableOpacity>
         </View>

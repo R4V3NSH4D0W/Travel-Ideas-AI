@@ -2,6 +2,7 @@ import { View, Text, FlatList, Image } from "react-native";
 import React, { useEffect } from "react";
 import { GetPhotoRef } from "../../services/GooglePlaceApi";
 import HotelCard from "./HotelCard";
+import { TRANSLATE } from "../../app/i18n/translationHelper";
 
 export default function HotelList({ hotelList }) {
   return (
@@ -16,7 +17,7 @@ export default function HotelList({ hotelList }) {
           fontSize: 20,
         }}
       >
-        Hotel Recommendation
+        {TRANSLATE("MISC.HOTEL_RECOMMENDATION")}
       </Text>
       <FlatList
         data={hotelList}

@@ -21,6 +21,8 @@ import { auth } from "../../../configs/FirebaseConfig";
 import * as LocalAuthentication from "expo-local-authentication";
 import * as SecureStore from "expo-secure-store";
 import Entypo from "@expo/vector-icons/Entypo";
+import { TRANSLATE } from "../../i18n/translationHelper";
+import { useTranslation } from "react-i18next";
 
 export default function SignIn() {
   const [email, setEmail] = useState("");
@@ -29,7 +31,7 @@ export default function SignIn() {
   const [isLoading, setIsLoading] = useState(false);
   const [biometricEnabled, setBiometricEnabled] = useState(false);
   const router = useRouter();
-
+  const { i18n } = useTranslation();
   useEffect(() => {
     const checkBiometricSettings = async () => {
       const biometricPreference = await SecureStore.getItemAsync(
@@ -50,7 +52,10 @@ export default function SignIn() {
 
   const onSignIn = () => {
     if (!email || !password) {
-      ToastAndroid.show("Please enter email and password", ToastAndroid.SHORT);
+      ToastAndroid.show(
+        TRANSLATE("AUTH.PLEASE_ENTER_EMAIL_AND_PASSWORD"),
+        ToastAndroid.SHORT
+      );
       return;
     }
 
@@ -59,7 +64,10 @@ export default function SignIn() {
       .then((userCredential) => {
         const user = userCredential.user;
 
-        ToastAndroid.show("Login successful", ToastAndroid.LONG);
+        ToastAndroid.show(
+          TRANSLATE("AUTH.LOGIN_SUCCESSFUL"),
+          ToastAndroid.LONG
+        );
 
         setTimeout(() => {
           router.replace("/mytrip");
@@ -69,9 +77,12 @@ export default function SignIn() {
         const errorCode = error.code;
         const errorMessage = error.message;
         if (errorCode === "auth/invalid-credential") {
-          ToastAndroid.show("Invalid credential", ToastAndroid.LONG);
+          ToastAndroid.show(
+            TRANSLATE("AUTH.INVALID_CREDENTIAL"),
+            ToastAndroid.LONG
+          );
         } else {
-          ToastAndroid.show("Login failed", ToastAndroid.LONG);
+          ToastAndroid.show(TRANSLATE("AUTH.LOGIN_FAILED"), ToastAndroid.LONG);
         }
 
         setIsLoading(false);
@@ -85,8 +96,8 @@ export default function SignIn() {
 
       if (storedEmail && storedPassword) {
         const result = await LocalAuthentication.authenticateAsync({
-          promptMessage: "Authenticate to log in",
-          fallbackLabel: "Use Passcode",
+          promptMessage: TRANSLATE("AUTH.AUTHENTICATE_TO_LOG_IN"),
+          fallbackLabel: TRANSLATE("AUTH.USE_PASSCODE"),
         });
 
         if (result.success) {
@@ -94,7 +105,10 @@ export default function SignIn() {
           signInWithEmailAndPassword(auth, storedEmail, storedPassword)
             .then((userCredential) => {
               const user = userCredential.user;
-              ToastAndroid.show("Login successful", ToastAndroid.LONG);
+              ToastAndroid.show(
+                TRANSLATE("AUTH.LOGIN_SUCCESSFUL"),
+                ToastAndroid.LONG
+              );
               setTimeout(() => {
                 router.replace("/mytrip");
               }, 500);
@@ -104,25 +118,37 @@ export default function SignIn() {
               const errorMessage = error.message;
 
               if (errorCode === "auth/invalid-credential") {
-                ToastAndroid.show("Invalid credential", ToastAndroid.LONG);
+                ToastAndroid.show(
+                  TRANSLATE("AUTH.INVALID_CREDENTIAL"),
+                  ToastAndroid.LONG
+                );
               } else {
-                ToastAndroid.show("Login failed", ToastAndroid.LONG);
+                ToastAndroid.show(
+                  TRANSLATE("AUTH.LOGIN_FAILED"),
+                  ToastAndroid.LONG
+                );
               }
 
               setIsLoading(false);
             });
         } else {
           ToastAndroid.show(
-            "Biometric authentication failed",
+            TRANSLATE("AUTH.BIOMETRIC_AUTHENTICATION_FAILED"),
             ToastAndroid.LONG
           );
         }
       } else {
-        ToastAndroid.show("No credentials stored", ToastAndroid.LONG);
+        ToastAndroid.show(
+          TRANSLATE("AUTH.NO_CREDENTIALS_STORED"),
+          ToastAndroid.LONG
+        );
       }
     } catch (error) {
       console.error("Error during biometric login:", error);
-      ToastAndroid.show("Biometric authentication failed", ToastAndroid.LONG);
+      ToastAndroid.show(
+        TRANSLATE("AUTH.BIOMETRIC_AUTHENTICATION_FAILED"),
+        ToastAndroid.LONG
+      );
     }
   };
 
@@ -146,7 +172,7 @@ export default function SignIn() {
           <Text
             style={{ fontFamily: "outfit-bold", fontSize: 30, marginTop: 30 }}
           >
-            Let's Sign You In
+            {TRANSLATE("AUTH.LETS_SIGN_YOU_IN")}
           </Text>
           <Text
             style={{
@@ -156,7 +182,7 @@ export default function SignIn() {
               fontFamily: "outfit-regular",
             }}
           >
-            Welcome Back
+            {TRANSLATE("AUTH.WELCOME_BACK")}
           </Text>
           <Text
             style={{
@@ -166,14 +192,16 @@ export default function SignIn() {
               fontFamily: "outfit-regular",
             }}
           >
-            You've been missed
+            {TRANSLATE("AUTH.YOUVE_BEEN_MISSED")}
           </Text>
           {/* Email */}
           <View style={{ marginTop: 50 }}>
-            <Text style={{ fontFamily: "outfit-regular" }}>Email</Text>
+            <Text style={{ fontFamily: "outfit-regular" }}>
+              {TRANSLATE("AUTH.EMAIL")}
+            </Text>
             <TextInput
               style={styles.input}
-              placeholder="Enter Email"
+              placeholder={TRANSLATE("AUTH.ENTER_EMAIL")}
               onChangeText={(value) => setEmail(value)}
               value={email}
               keyboardType="email-address"
@@ -181,12 +209,14 @@ export default function SignIn() {
           </View>
           {/* Password */}
           <View style={{ marginTop: 20 }}>
-            <Text style={{ fontFamily: "outfit-regular" }}>Password</Text>
+            <Text style={{ fontFamily: "outfit-regular" }}>
+              {TRANSLATE("AUTH.PASSWORD")}
+            </Text>
             <View style={styles.passwordContainer}>
               <TextInput
                 secureTextEntry={!showPassword}
                 style={[styles.passwordInput, { flex: 1 }]}
-                placeholder="Enter Password"
+                placeholder={TRANSLATE("AUTH.ENTER_PASSWORD")}
                 onChangeText={(value) => setPassword(value)}
                 value={password}
               />
@@ -217,7 +247,7 @@ export default function SignIn() {
               onPress={onSignIn}
             >
               <Text style={{ color: Colors.WHITE, textAlign: "center" }}>
-                Sign In
+                {TRANSLATE("AUTH.SIGN_IN")}
               </Text>
             </TouchableOpacity>
 
@@ -249,7 +279,7 @@ export default function SignIn() {
             }}
           >
             <Text style={{ color: Colors.PRIMARY, textAlign: "center" }}>
-              Create Account
+              {TRANSLATE("AUTH.CREATE_ACCOUNT")}
             </Text>
           </TouchableOpacity>
 

@@ -5,6 +5,7 @@ import { Colors } from "../../constants/Colors";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import { CreateTripContext } from "../../context/CreateTripContext";
 import { GOOGLE_API_KEY } from "../../env";
+import { TRANSLATE } from "../i18n/translationHelper";
 
 const SearchPlace = () => {
   const navigation = useNavigation();
@@ -15,10 +16,10 @@ const SearchPlace = () => {
   useEffect(() => {
     navigation.setOptions({
       headerShown: true,
-      title: "Search Place",
+      title: TRANSLATE("MISC.SEARCH_PLACE"),
       headerTransparent: true,
     });
-  }, []);
+  }, [navigation]);
 
   return (
     <View
@@ -30,7 +31,7 @@ const SearchPlace = () => {
       }}
     >
       <GooglePlacesAutocomplete
-        placeholder="Search Place"
+        placeholder={TRANSLATE("MISC.SEARCH_PLACE")}
         fetchDetails={true}
         onPress={(data, details = null) => {
           setTripData({

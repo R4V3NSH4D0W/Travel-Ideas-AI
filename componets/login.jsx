@@ -1,3 +1,4 @@
+import React from "react";
 import {
   View,
   Text,
@@ -6,15 +7,19 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
-import React from "react";
 import { Colors } from "@/constants/Colors";
 import { useRouter } from "expo-router";
+import { TRANSLATE } from "../app/i18n/translationHelper";
+import LanguageSwitcher from "./languageSwitcher/language_switcher";
+import { useTranslation } from "react-i18next";
 const { height, width } = Dimensions.get("window");
 
 export default function Login() {
   const router = useRouter();
+  const { i18n } = useTranslation();
+
   return (
-    <View>
+    <View key={i18n.language}>
       <Image
         style={{ width: width, height: 450 }}
         source={require("../assets/images/login.jpg")}
@@ -28,7 +33,7 @@ export default function Login() {
             marginTop: 10,
           }}
         >
-          AI Travel Planner
+          {TRANSLATE("STARTING.AI_TRAVEL_PLANNER")}
         </Text>
         <Text
           style={{
@@ -39,8 +44,7 @@ export default function Login() {
             marginTop: 20,
           }}
         >
-          Discover Your New adventure effortlessly. personalized itineraies at
-          your finger tips. Travel Smarter with AI Driven insigths
+          {TRANSLATE("STARTING.DISCOVER")}
         </Text>
         <TouchableOpacity
           onPress={() => router.push("auth/sign-in")}
@@ -54,9 +58,11 @@ export default function Login() {
               fontSize: 17,
             }}
           >
-            Get Started
+            {TRANSLATE("STARTING.GET_STARTED")}
           </Text>
         </TouchableOpacity>
+
+        <LanguageSwitcher />
       </View>
     </View>
   );

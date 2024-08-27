@@ -6,6 +6,7 @@ import { SelectBudgetOption } from "../../constants/Options";
 import OptionCard from "../../componets/CreateTrip/OptionCard";
 import { CreateTripContext } from "../../context/CreateTripContext";
 import { ToastAndroid } from "react-native";
+import { TRANSLATE } from "../i18n/translationHelper";
 
 export default function SelectBudget() {
   const navigation = useNavigation();
@@ -27,7 +28,10 @@ export default function SelectBudget() {
 
   const onClickContinue = () => {
     if (!selectedOption) {
-      ToastAndroid.show("Please select a budget option", ToastAndroid.LONG);
+      ToastAndroid.show(
+        TRANSLATE("ALERT.PLEASE_SELECT_BUDGET_OPTION"),
+        ToastAndroid.LONG
+      );
       return;
     }
     router.push("/create-trip/review-trip");
@@ -49,7 +53,7 @@ export default function SelectBudget() {
           marginTop: 20,
         }}
       >
-        Budget
+        {TRANSLATE("MISC.BUDGET")}
       </Text>
       <View
         style={{
@@ -62,7 +66,7 @@ export default function SelectBudget() {
             fontSize: 20,
           }}
         >
-          Choose spending habits for your trip
+          {TRANSLATE("MISC.SPENDING_HABIT")}
         </Text>
         <FlatList
           data={SelectBudgetOption}
@@ -71,7 +75,12 @@ export default function SelectBudget() {
               onPress={() => setSelectedOption(item)}
               style={{ marginVertical: 10 }}
             >
-              <OptionCard option={item} selectedOption={selectedOption} />
+              <OptionCard
+                option={item}
+                title={TRANSLATE(`BUDGET.${item.id}_TITLE`)}
+                desc={TRANSLATE(`BUDGET.${item.id}_DESC`)}
+                selectedOption={selectedOption}
+              />
             </TouchableOpacity>
           )}
         />
@@ -93,7 +102,7 @@ export default function SelectBudget() {
             fontSize: 20,
           }}
         >
-          Continue
+          {TRANSLATE("MISC.CONTINUE")}
         </Text>
       </TouchableOpacity>
     </View>
