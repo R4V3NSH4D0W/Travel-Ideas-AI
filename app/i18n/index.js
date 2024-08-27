@@ -15,20 +15,20 @@ const resources = {
   de: { translation: de },
 };
 
-const initI18n = async () => {
-  const defaultLanguage = (await AsyncStorage.getItem("language")) || "en";
+export const initializeI18n = async () => {
+  if (!i18n.isInitialized) {
+    const defaultLanguage = (await AsyncStorage.getItem("language")) || "en";
 
-  i18n.use(initReactI18next).init({
-    resources,
-    lng: defaultLanguage,
-    fallbackLng: "en",
-    interpolation: {
-      escapeValue: false,
-    },
-    debug: true,
-  });
+    await i18n.use(initReactI18next).init({
+      resources,
+      lng: defaultLanguage,
+      fallbackLng: "en",
+      interpolation: {
+        escapeValue: false,
+      },
+      debug: true,
+    });
+  }
 };
-
-initI18n();
 
 export default i18n;

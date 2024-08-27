@@ -147,7 +147,7 @@ export default function ImageRecognization() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: 20,
+    marginTop: 10,
   },
   navBar: {
     zIndex: 1,

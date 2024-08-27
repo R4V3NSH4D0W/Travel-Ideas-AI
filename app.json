@@ -2,9 +2,9 @@
   "expo": {
     "name": "TripPlannerAI",
     "slug": "TripPlannerAI",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
-    "icon": "./assets/images/TravelIdeas.png",
+    "icon": "./assets/images/travel.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "splash": {
@@ -17,7 +17,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/TravelIdeas.png",
+        "foregroundImage": "./assets/images/travel.png",
         "backgroundColor": "#ffffff"
       },
       "permissions": [
