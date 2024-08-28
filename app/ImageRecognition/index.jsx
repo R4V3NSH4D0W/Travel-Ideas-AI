@@ -64,11 +64,13 @@ export default function ImageRecognization() {
           });
         } else {
           setTranslatedActivity({
+            title: title,
             details: details,
           });
         }
       } catch (error) {
         setTranslatedActivity({
+          title: title,
           details: details,
         });
       }

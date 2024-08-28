@@ -143,6 +143,7 @@ export default {
     SUNNY: "晴れ",
   },
   MESSAGES: {
+    TRIP_DELETED_SUCCESSFULLY: "旅行が正常に削除されました",
     LOGOUT_SUCCESS: "ログアウトしました。",
     LOGOUT_ERROR: "ログアウト中にエラーが発生しました。",
     SELECT_IMAGE: "画像を選択",

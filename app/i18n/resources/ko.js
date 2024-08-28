@@ -142,6 +142,7 @@ export default {
     SUNNY: "맑음",
   },
   MESSAGES: {
+    TRIP_DELETED_SUCCESSFULLY: "여행이 성공적으로 삭제되었습니다",
     LOGOUT_SUCCESS: "로그아웃되었습니다.",
     LOGOUT_ERROR: "로그아웃 중 오류가 발생했습니다.",
     SELECT_IMAGE: "이미지 선택",

@@ -142,6 +142,7 @@ export default {
     SUNNY: "sunny",
   },
   MESSAGES: {
+    TRIP_DELETED_SUCCESSFULLY: "Trip deleted successfully",
     LOGOUT_SUCCESS: "You have been logged out.",
     LOGOUT_ERROR: "An error occurred while logging out.",
     SELECT_IMAGE: "Select Image",

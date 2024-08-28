@@ -113,6 +113,14 @@ export default function WeatherCard({ date, coordinates }) {
   const weatherEmoji = getWeatherEmoji(condition);
   const travelSuggestion = getTravelSuggestion(condition);
 
+  const getWeather = () => {
+    if (condition !== "N/A") {
+      return TRANSLATE(`WEATHER.${condition.toUpperCase()}`);
+    } else {
+      return "N/A";
+    }
+  };
+
   return (
     <TouchableOpacity
       onPress={() => {
@@ -124,10 +132,7 @@ export default function WeatherCard({ date, coordinates }) {
         {TRANSLATE("WEATHER.WEATHER_REPORT_FOR")} {date}
       </Text>
       <Text style={styles.text}>
-        {weatherEmoji} {TRANSLATE("WEATHER.WEATHER")}:
-        {condition === null
-          ? TRANSLATE(`WEATHER.${condition.toUpperCase()}`)
-          : "N/A"}
+        {weatherEmoji} {TRANSLATE("WEATHER.WEATHER")}: {getWeather()}
       </Text>
       <Text style={styles.text}>
         {TRANSLATE("WEATHER.AVG_TEMP")}: {temperatureAvg}°C |

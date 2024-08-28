@@ -19,12 +19,19 @@ export default function Login() {
   const { i18n } = useTranslation();
   console.log("i18n", i18n.language);
 
+  const images = {
+    en: require("../assets/images/uk.jpg"),
+    ru: require("../assets/images/russia.jpg"),
+    ja: require("../assets/images/login.jpg"),
+    ko: require("../assets/images/korea.jpg"),
+    de: require("../assets/images/germany.jpg"),
+  };
+
+  const getImage = () => images[i18n.language] || images.en;
+
   return (
     <View>
-      <Image
-        style={{ width: width, height: 450 }}
-        source={require("../assets/images/login.jpg")}
-      />
+      <Image style={{ width: width, height: 450 }} source={getImage()} />
       <View style={styles.container}>
         <Text
           style={{

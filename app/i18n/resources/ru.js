@@ -147,6 +147,7 @@ export default {
     SUNNY: "солнечно",
   },
   MESSAGES: {
+    TRIP_DELETED_SUCCESSFULLY: "Поездка успешно удалена",
     LOGOUT_SUCCESS: "Вы успешно вышли из системы.",
     LOGOUT_ERROR: "Произошла ошибка при выходе из системы.",
     SELECT_IMAGE: "Выберите изображение",
