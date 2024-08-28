@@ -67,7 +67,10 @@ export default function MyTrip() {
       const docRef = doc(db, "UserTrips", id);
       await deleteDoc(docRef);
       GetMyTrips();
-      ToastAndroid.show("Trip deleted successfully", ToastAndroid.SHORT);
+      ToastAndroid.show(
+        TRANSLATE("MESSAGES.TRIP_DELETED_SUCCESSFULLY"),
+        ToastAndroid.SHORT
+      );
     } catch (error) {
       console.error("Error deleting document:", error);
     }

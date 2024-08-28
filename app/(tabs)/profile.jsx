@@ -244,6 +244,9 @@ export default function Profile() {
         <Switch
           value={biometricEnabled}
           onValueChange={handleBiometricToggle}
+          style={{
+            height: 40,
+          }}
           trackColor={{ false: Colors.GRAY, true: Colors.PRIMARY }}
           thumbColor={Colors.WHITE}
         />

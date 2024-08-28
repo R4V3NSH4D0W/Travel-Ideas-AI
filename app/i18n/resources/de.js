@@ -151,6 +151,7 @@ export default {
     SUNNY: "sonnig",
   },
   MESSAGES: {
+    TRIP_DELETED_SUCCESSFULLY: "Reise erfolgreich gelöscht",
     LOGOUT_SUCCESS: "Sie wurden erfolgreich abgemeldet.",
     LOGOUT_ERROR: "Beim Abmelden ist ein Fehler aufgetreten.",
     SELECT_IMAGE: "Bild auswählen",
