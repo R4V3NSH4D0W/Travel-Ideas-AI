@@ -1,23 +1,26 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, View, Image, Text } from "react-native";
-import Ionicons from "@expo/vector-icons/Ionicons";
-import { Colors } from "../../constants/Colors";
-import BottomSheet from "@gorhom/bottom-sheet";
-import AACamera from "../../componets/camera/Camera";
 import { ScrollView } from "react-native-gesture-handler";
-import { analyzeImage } from "../../services/ImageReconizationHelpers";
-import { TRANSLATE } from "../i18n/translationHelper";
+import { StyleSheet, View, Image, Text } from "react-native";
+
 import i18next from "i18next";
+import BottomSheet from "@gorhom/bottom-sheet";
+import Ionicons from "@expo/vector-icons/Ionicons";
+
+import { Colors } from "../../constants/Colors";
+import AACamera from "../../componets/camera/Camera";
+import { TRANSLATE } from "../i18n/translationHelper";
 import { appTranslateText } from "../../services/translationService";
+import { analyzeImage } from "../../services/ImageReconizationHelpers";
 
 export default function ImageRecognization() {
-  const [image, setImage] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [details, setDetails] = useState("");
   const [title, setTitle] = useState("");
+  const [image, setImage] = useState(null);
+  const [details, setDetails] = useState("");
+  const [loading, setLoading] = useState(false);
   const [bottomSheetIndex, setBottomSheetIndex] = useState(-1);
-  const currentLanguage = i18next.language;
   const [translatedActivity, setTranslatedActivity] = useState(null);
+
+  const currentLanguage = i18next.language;
 
   const MIN_HEIGHT = 300;
   const MAX_HEIGHT = 700;
@@ -31,11 +34,11 @@ export default function ImageRecognization() {
   const NavBar = () => (
     <View style={styles.navBar}>
       <Ionicons
-        name="arrow-back"
         size={26}
+        name="arrow-back"
         color={Colors.WHITE}
-        style={{ position: "absolute", top: 20, left: 20 }}
         onPress={() => setImage(null)}
+        style={{ position: "absolute", top: 20, left: 20 }}
       />
       <Text
         style={{ fontFamily: "outfit-bold", fontSize: 20, color: Colors.WHITE }}
@@ -46,7 +49,6 @@ export default function ImageRecognization() {
   );
 
   useEffect(() => {
-    console.log("details", details);
     const translateActivityDetails = async () => {
       try {
         if (currentLanguage !== "en" && details) {
@@ -88,18 +90,18 @@ export default function ImageRecognization() {
           <BottomSheet
             index={bottomSheetIndex}
             snapPoints={[MIN_HEIGHT, MAX_HEIGHT]}
-            onChange={(index) => setBottomSheetIndex(index)}
-            backgroundStyle={styles.bottomSheetBackground}
             handleStyle={styles.bottomSheetHandle}
+            backgroundStyle={styles.bottomSheetBackground}
+            onChange={(index) => setBottomSheetIndex(index)}
           >
             <View style={styles.bottomSheetContent}>
               {!loading && details ? (
                 <ScrollView showsVerticalScrollIndicator={false}>
                   <Text
                     style={{
-                      fontFamily: "outfit-bold",
                       fontSize: 18,
                       paddingBottom: 10,
+                      fontFamily: "outfit-bold",
                     }}
                   >
                     {translatedActivity?.title}
@@ -107,9 +109,9 @@ export default function ImageRecognization() {
                   <Text
                     style={{
                       fontSize: 16,
-                      fontFamily: "outfit-regular",
-                      color: Colors.PRIMARY,
                       textAlign: "justify",
+                      color: Colors.PRIMARY,
+                      fontFamily: "outfit-regular",
                     }}
                   >
                     {translatedActivity?.details}
@@ -118,8 +120,8 @@ export default function ImageRecognization() {
               ) : (
                 <View
                   style={{
-                    justifyContent: "center",
                     alignItems: "center",
+                    justifyContent: "center",
                   }}
                 >
                   <Text style={{ fontFamily: "outfit-regular", fontSize: 16 }}>
@@ -129,9 +131,9 @@ export default function ImageRecognization() {
                     source={require("../../assets/images/loadingIndi.gif")}
                     style={{
                       zIndex: -1,
-                      marginTop: -50,
                       width: "50%",
                       height: "50%",
+                      marginTop: -50,
                     }}
                   />
                 </View>
@@ -153,13 +155,13 @@ const styles = StyleSheet.create({
   },
   navBar: {
     zIndex: 1,
-    marginTop: 20,
     padding: 20,
+    marginTop: 20,
     flexDirection: "row",
     alignItems: "center",
+    justifyContent: "center",
     borderBottomLeftRadius: 10,
     borderBottomRightRadius: 10,
-    justifyContent: "center",
     backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
   bottomSheetBackground: {

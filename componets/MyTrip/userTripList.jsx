@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+
 import moment from "moment";
-import { Colors } from "../../constants/Colors";
+import i18next from "i18next";
+import { useRouter } from "expo-router";
+
 import UserTripCard from "./userTripCard";
 import { GOOGLE_API_KEY } from "../../env";
-import { useRouter } from "expo-router";
+import { Colors } from "../../constants/Colors";
 import { TRANSLATE } from "../../app/i18n/translationHelper";
-import i18next from "i18next";
 import { appTranslateText } from "../../services/translationService";
 
 export default function UserTripList({ userTrips, setUserTrips, onDelete }) {
@@ -14,7 +16,7 @@ export default function UserTripList({ userTrips, setUserTrips, onDelete }) {
 
   const currentLanguage = i18next.language;
   const [translatedActivity, setTranslatedActivity] = useState(null);
-  // console.log(translatedActivity);
+
   useEffect(() => {
     const translateActivityDetails = async () => {
       try {
@@ -61,20 +63,20 @@ export default function UserTripList({ userTrips, setUserTrips, onDelete }) {
                 GOOGLE_API_KEY,
             }}
             style={{
-              width: "100%",
               height: 240,
-              objectFit: "cover",
+              width: "100%",
               borderRadius: 15,
+              objectFit: "cover",
             }}
           />
         ) : (
           <Image
             source={require("../../assets/images/login.jpg")}
             style={{
-              width: "100%",
               height: 240,
-              objectFit: "cover",
+              width: "100%",
               borderRadius: 15,
+              objectFit: "cover",
             }}
           />
         )}
@@ -85,17 +87,17 @@ export default function UserTripList({ userTrips, setUserTrips, onDelete }) {
           </Text>
           <View
             style={{
+              marginTop: 5,
               display: "flex",
               flexDirection: "row",
               justifyContent: "space-between",
-              marginTop: 5,
             }}
           >
             <Text
               style={{
-                fontFamily: "outfit-regular",
                 fontSize: 17,
                 color: Colors.GRAY,
+                fontFamily: "outfit-regular",
               }}
             >
               {LatestTrip.startDate
@@ -104,9 +106,9 @@ export default function UserTripList({ userTrips, setUserTrips, onDelete }) {
             </Text>
             <Text
               style={{
-                fontFamily: "outfit-regular",
                 fontSize: 17,
                 color: Colors.GRAY,
+                fontFamily: "outfit-regular",
               }}
             >
               🚋
@@ -123,18 +125,18 @@ export default function UserTripList({ userTrips, setUserTrips, onDelete }) {
               })
             }
             style={{
-              backgroundColor: Colors.PRIMARY,
               padding: 15,
-              borderRadius: 15,
               marginTop: 10,
+              borderRadius: 15,
+              backgroundColor: Colors.PRIMARY,
             }}
           >
             <Text
               style={{
-                color: Colors.WHITE,
                 fontSize: 15,
-                fontFamily: "outfit-medium",
+                color: Colors.WHITE,
                 textAlign: "center",
+                fontFamily: "outfit-medium",
               }}
             >
               {TRANSLATE("MISC.SEE_YOUR_PLAN")}

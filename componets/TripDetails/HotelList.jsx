@@ -1,6 +1,6 @@
-import { View, Text, FlatList, Image } from "react-native";
-import React, { useEffect } from "react";
-import { GetPhotoRef } from "../../services/GooglePlaceApi";
+import React from "react";
+import { View, Text, FlatList } from "react-native";
+
 import HotelCard from "./HotelCard";
 import { TRANSLATE } from "../../app/i18n/translationHelper";
 
@@ -13,8 +13,8 @@ export default function HotelList({ hotelList }) {
     >
       <Text
         style={{
-          fontFamily: "outfit-bold",
           fontSize: 20,
+          fontFamily: "outfit-bold",
         }}
       >
         {TRANSLATE("MISC.HOTEL_RECOMMENDATION")}

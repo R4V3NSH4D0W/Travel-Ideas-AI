@@ -1,22 +1,25 @@
 import {
   View,
   Text,
-  StyleSheet,
-  TextInput,
-  TouchableOpacity,
-  ToastAndroid,
   Modal,
-  ActivityIndicator,
   Keyboard,
+  TextInput,
+  StyleSheet,
+  ToastAndroid,
+  TouchableOpacity,
+  ActivityIndicator,
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
   Platform,
 } from "react-native";
 import React, { useState } from "react";
-import { Colors } from "../../../constants/Colors";
+
 import { useRouter } from "expo-router";
 import Ionicons from "@expo/vector-icons/Ionicons";
+
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+
+import { Colors } from "../../../constants/Colors";
 import { auth } from "../../../configs/FirebaseConfig";
 import { TRANSLATE } from "../../i18n/translationHelper";
 
@@ -24,9 +27,9 @@ const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const validatePassword = (password) => {
   const minLength = 7;
+  const hasNumber = /\d/.test(password);
   const hasUppercase = /[A-Z]/.test(password);
   const hasSpecialChar = /[!@#$%^&*]/.test(password);
-  const hasNumber = /\d/.test(password);
 
   if (password.length < minLength) {
     return TRANSLATE("AUTH.PASSWORD_TOO_SHORT");
@@ -49,6 +52,7 @@ export default function SignUp() {
   const [fullName, setFullName] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+
   const router = useRouter();
 
   const OnCreateAccount = () => {
@@ -111,8 +115,8 @@ export default function SignUp() {
           style={{
             padding: 25,
             paddingTop: 50,
-            backgroundColor: Colors.WHITE,
             height: "100%",
+            backgroundColor: Colors.WHITE,
           }}
         >
           <TouchableOpacity onPress={() => router.back()}>
@@ -142,11 +146,11 @@ export default function SignUp() {
               {TRANSLATE("AUTH.EMAIL")}
             </Text>
             <TextInput
+              value={email}
               style={styles.input}
+              keyboardType="email-address"
               placeholder={TRANSLATE("AUTH.ENTER_EMAIL")}
               onChangeText={(value) => setEmail(value)}
-              value={email}
-              keyboardType="email-address"
             />
           </View>
           {/* Password */}
@@ -156,11 +160,11 @@ export default function SignUp() {
             </Text>
             <View style={styles.passwordContainer}>
               <TextInput
+                value={password}
                 secureTextEntry={!showPassword}
                 style={[styles.passwordInput, { flex: 1 }]}
-                placeholder={TRANSLATE("AUTH.ENTER_PASSWORD")}
                 onChangeText={(value) => setPassword(value)}
-                value={password}
+                placeholder={TRANSLATE("AUTH.ENTER_PASSWORD")}
               />
               <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
                 <Ionicons
@@ -235,38 +239,38 @@ const styles = StyleSheet.create({
     padding: 15,
   },
   passwordContainer: {
-    flexDirection: "row",
-    alignItems: "center",
     borderWidth: 1,
     borderRadius: 15,
     paddingRight: 10,
+    flexDirection: "row",
+    alignItems: "center",
     borderColor: Colors.GRAY,
   },
   modalBackground: {
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
   activityIndicatorWrapper: {
+    padding: 20,
+    width: "80%",
     display: "flex",
+    borderRadius: 15,
     alignItems: "center",
     justifyContent: "center",
-    padding: 20,
-    backgroundColor: Colors.WHITE,
-    borderRadius: 15,
-    width: "80%",
   },
   modalButton: {
     padding: 15,
-    borderRadius: 15,
-    backgroundColor: Colors.PRIMARY,
-    marginVertical: 10,
     width: "80%",
+    borderRadius: 15,
+    marginVertical: 10,
     alignItems: "center",
+    backgroundColor: Colors.PRIMARY,
   },
   modalButtonText: {
+    fontSize: 16,
     color: Colors.WHITE,
     fontFamily: "outfit-bold",
-    fontSize: 16,
   },
 });

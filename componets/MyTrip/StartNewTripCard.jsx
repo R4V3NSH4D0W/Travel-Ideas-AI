@@ -1,8 +1,12 @@
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import React from "react";
-import Ionicons from "@expo/vector-icons/Ionicons";
-import { Colors } from "../../constants/Colors";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+
 import { useRouter } from "expo-router";
+import Ionicons from "@expo/vector-icons/Ionicons";
+
+import { Colors } from "../../constants/Colors";
+import { TRANSLATE } from "../../app/i18n/translationHelper";
+
 const StartNewTripCard = () => {
   const router = useRouter();
   return (
@@ -17,17 +21,17 @@ const StartNewTripCard = () => {
     >
       <Ionicons name="location-sharp" size={30} color="black" />
       <Text style={{ fontSize: 25, fontFamily: "outfit-medium" }}>
-        No trips planned yet
+        {TRANSLATE("MISC.NO_TRIPS")}
       </Text>
       <Text
         style={{
           fontSize: 20,
-          fontFamily: "outfit-regular",
-          textAlign: "center",
           color: Colors.GRAY,
+          textAlign: "center",
+          fontFamily: "outfit-regular",
         }}
       >
-        Looks like its time to plan a new travel experience! Get Started below
+        {TRANSLATE("MISC.NO_TRIPS_DESC")}
       </Text>
       <TouchableOpacity
         onPress={() => router.push("/create-trip/search-place")}
@@ -45,7 +49,7 @@ const StartNewTripCard = () => {
             fontFamily: "outfit-medium",
           }}
         >
-          Start a New Trip
+          {TRANSLATE("MISC.START_NEW_TRIP")}
         </Text>
       </TouchableOpacity>
     </View>

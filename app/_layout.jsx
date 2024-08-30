@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+
+import { Stack } from "expo-router";
 import { useFonts } from "expo-font";
-import { Stack, useRouter } from "expo-router";
+
 import { CreateTripContext } from "../context/CreateTripContext";
 
 export default function RootLayout() {

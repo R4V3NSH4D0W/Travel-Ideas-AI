@@ -15,7 +15,6 @@ import { TRANSLATE } from "../i18n/translationHelper";
 
 const SelectDate = () => {
   const { tripData, setTripData } = useContext(CreateTripContext);
-  console.log("tripData", tripData);
 
   const navigation = useNavigation();
   const [startDate, setStartDate] = useState();

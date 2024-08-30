@@ -11,7 +11,7 @@ import { TRANSLATE } from "../i18n/translationHelper";
 
 const GenerateTrip = () => {
   const { tripData, setTripData } = useContext(CreateTripContext);
-  console.log("FINAL", tripData);
+
   const [loading, setLoading] = useState(false);
   const router = useRouter();
   const user = auth.currentUser;

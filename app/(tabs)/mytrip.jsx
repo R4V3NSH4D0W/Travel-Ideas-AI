@@ -1,16 +1,17 @@
-import React, { useEffect, useState } from "react";
 import {
-  ActivityIndicator,
-  ScrollView,
-  StyleSheet,
   Text,
+  View,
+  StyleSheet,
+  ScrollView,
   ToastAndroid,
   TouchableOpacity,
-  View,
+  ActivityIndicator,
 } from "react-native";
+import React, { useEffect, useState } from "react";
+
+import { useRouter } from "expo-router";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import StartNewTripCard from "../../componets/MyTrip/StartNewTripCard";
-import UserTripList from "../../componets/MyTrip/userTripList";
+
 import {
   doc,
   query,
@@ -19,14 +20,16 @@ import {
   deleteDoc,
   collection,
 } from "firebase/firestore";
-import { db, auth } from "../../configs/FirebaseConfig";
-import { useRouter } from "expo-router";
+
 import { Colors } from "../../constants/Colors";
 import { TRANSLATE } from "../i18n/translationHelper";
+import { db, auth } from "../../configs/FirebaseConfig";
+import UserTripList from "../../componets/MyTrip/userTripList";
+import StartNewTripCard from "../../componets/MyTrip/StartNewTripCard";
 
 export default function MyTrip() {
-  const [userTrips, setUserTrips] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [userTrips, setUserTrips] = useState([]);
 
   const router = useRouter();
   const user = auth.currentUser;
@@ -119,17 +122,17 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.WHITE,
   },
   header: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    paddingHorizontal: 25,
     marginBottom: 20,
+    flexDirection: "row",
+    paddingHorizontal: 25,
+    justifyContent: "space-between",
   },
   title: {
-    fontFamily: "outfit-bold",
     fontSize: 35,
+    fontFamily: "outfit-bold",
   },
   scrollView: {
-    paddingHorizontal: 25,
     paddingBottom: 20,
+    paddingHorizontal: 25,
   },
 });

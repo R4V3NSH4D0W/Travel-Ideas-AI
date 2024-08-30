@@ -87,6 +87,10 @@ export default {
     THE_TRIP_HAS_ENDED: "Поездка завершена",
     THE_TRIP_IS_ONGOING: "Поездка в процессе",
     TRANSLATE: "Перевести",
+    NO_TRIPS: "Поездки ещё не запланированы",
+    NO_TRIPS_DESC:
+      "Похоже, пришло время спланировать новое путешествие! Начните ниже",
+    START_NEW_TRIP: "Начать новое путешествие",
   },
   TRAVELER: {
     "1_TITLE": "Только я",
@@ -141,6 +145,7 @@ export default {
     "MODERATE RAIN": "умеренный дождь",
     "LIGHT RAIN": "легкий дождь",
     "PATCHY RAIN": "прерывистый дождь",
+    "PATCHY RAIN NEARBY": "местами дождь поблизости",
     CLEAR: "ясно",
     "PARTLY CLOUDY": "частично облачно",
     OVERCAST: "облачно",

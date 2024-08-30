@@ -86,6 +86,10 @@ export default {
     THE_TRIP_HAS_ENDED: "旅行が終了しました",
     THE_TRIP_IS_ONGOING: "旅行中です",
     TRANSLATE: "翻訳",
+    NO_TRIPS: "まだ旅行の予定はありません",
+    NO_TRIPS_DESC:
+      "新しい旅行体験を計画する時が来たようです！下から始めましょう",
+    START_NEW_TRIP: "新しい旅行を始める",
   },
   TRAVELER: {
     "1_TITLE": "一人",
@@ -137,6 +141,7 @@ export default {
     "MODERATE RAIN": "中程度の雨",
     "LIGHT RAIN": "軽い雨",
     "PATCHY RAIN": "不安定な雨",
+    "PATCHY RAIN NEARBY": "付近にわずかな雨",
     CLEAR: "晴れ",
     "PARTLY CLOUDY": "部分的に曇り",
     OVERCAST: "曇り",

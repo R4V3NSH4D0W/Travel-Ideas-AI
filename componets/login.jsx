@@ -1,4 +1,3 @@
-import React from "react";
 import {
   View,
   Text,
@@ -7,17 +6,20 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
-import { Colors } from "@/constants/Colors";
+import React from "react";
+import { useTranslation } from "react-i18next";
+
 import { useRouter } from "expo-router";
+
+import { Colors } from "@/constants/Colors";
 import { TRANSLATE } from "../app/i18n/translationHelper";
 import LanguageSwitcher from "./languageSwitcher/language_switcher";
-import { useTranslation } from "react-i18next";
+
 const { height, width } = Dimensions.get("window");
 
 export default function Login() {
   const router = useRouter();
   const { i18n } = useTranslation();
-  console.log("i18n", i18n.language);
 
   const images = {
     en: require("../assets/images/uk.jpg"),
@@ -36,20 +38,20 @@ export default function Login() {
         <Text
           style={{
             fontSize: 25,
-            fontFamily: "outfit-bold",
-            textAlign: "center",
             marginTop: 10,
+            textAlign: "center",
+            fontFamily: "outfit-bold",
           }}
         >
           {TRANSLATE("STARTING.AI_TRAVEL_PLANNER")}
         </Text>
         <Text
           style={{
-            fontFamily: "outfit-regular",
             fontSize: 17,
-            textAlign: "center",
-            color: Colors.GRAY,
             marginTop: 20,
+            color: Colors.GRAY,
+            textAlign: "center",
+            fontFamily: "outfit-regular",
           }}
         >
           {TRANSLATE("STARTING.DISCOVER")}
@@ -60,10 +62,10 @@ export default function Login() {
         >
           <Text
             style={{
+              fontSize: 17,
               color: Colors.WHITE,
               textAlign: "center",
               fontFamily: "outfit-regular",
-              fontSize: 17,
             }}
           >
             {TRANSLATE("STARTING.GET_STARTED")}
@@ -79,17 +81,17 @@ export default function Login() {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: Colors.WHITE,
+    padding: 25,
     marginTop: -20,
     height: "100%",
-    borderTopRightRadius: 20,
     borderTopLeftRadius: 20,
-    padding: 25,
+    borderTopRightRadius: 20,
+    backgroundColor: Colors.WHITE,
   },
   button: {
     padding: 15,
-    backgroundColor: Colors.PRIMARY,
     borderRadius: 99,
     marginTop: "25%",
+    backgroundColor: Colors.PRIMARY,
   },
 });

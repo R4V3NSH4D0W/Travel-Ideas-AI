@@ -1,42 +1,43 @@
-import { View, Text, TouchableOpacity } from "react-native";
 import React from "react";
+import { View, Text, TouchableOpacity } from "react-native";
+
 import { Colors } from "../../constants/Colors";
 
 export default function FlightInfo({ flightData }) {
   return (
     <View
       style={{
+        padding: 10,
         marginTop: 20,
         borderWidth: 1,
         borderRadius: 15,
         borderColor: Colors.LIGHT_GRAY,
         // backgroundColor: Colors.LIGHT_GRAY,
-        padding: 10,
       }}
     >
       <View
         style={{
           display: "flex",
           flexDirection: "row",
-          justifyContent: "space-between",
           alignItems: "center",
+          justifyContent: "space-between",
         }}
       >
         <Text
           style={{
-            fontFamily: "outfit-bold",
             fontSize: 20,
+            fontFamily: "outfit-bold",
           }}
         >
           ✈️ Flights
         </Text>
         <TouchableOpacity
           style={{
-            backgroundColor: Colors.PRIMARY,
             padding: 5,
             width: 100,
             marginTop: 7,
             borderRadius: 7,
+            backgroundColor: Colors.PRIMARY,
           }}
         >
           <Text
@@ -53,17 +54,17 @@ export default function FlightInfo({ flightData }) {
 
       <Text
         style={{
-          fontFamily: "outfit-regular",
           fontSize: 17,
           marginTop: 7,
+          fontFamily: "outfit-regular",
         }}
       >
         {flightData?.airlineName || flightData?.airline}
       </Text>
       <Text
         style={{
-          fontFamily: "outfit-regular",
           fontSize: 17,
+          fontFamily: "outfit-regular",
         }}
       >
         Price: {flightData?.amount || flightData?.price}

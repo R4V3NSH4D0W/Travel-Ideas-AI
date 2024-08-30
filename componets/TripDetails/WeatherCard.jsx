@@ -1,9 +1,10 @@
-import { StyleSheet, Text, View, Button, TouchableOpacity } from "react-native";
 import React, { useEffect, useState } from "react";
-import { fetchWeatherData } from "../../services/weatherReport";
+import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
+
 import { Colors } from "../../constants/Colors";
-import WeatherSkeleton from "../../app/skeleton/weather_Skeleton";
 import { TRANSLATE } from "../../app/i18n/translationHelper";
+import { fetchWeatherData } from "../../services/weatherReport";
+import WeatherSkeleton from "../../app/skeleton/weather_Skeleton";
 
 const getWeatherEmoji = (condition) => {
   switch (condition.toLowerCase()) {
@@ -161,29 +162,27 @@ export default function WeatherCard({ date, coordinates }) {
 
 const styles = StyleSheet.create({
   container: {
-    width: "100%",
-    // borderWidth: 1,
-    borderColor: "#ddd",
     padding: 15,
+    width: "100%",
     borderRadius: 10,
     marginBottom: 20,
+    borderColor: "#ddd",
     backgroundColor: Colors.EXTREME_LIGHT_GRAY,
-    // shadowColor: "#000",
   },
   title: {
     fontSize: 18,
-    fontFamily: "outfit-bold",
     marginBottom: 10,
+    fontFamily: "outfit-bold",
   },
   text: {
-    fontFamily: "outfit-regular",
     fontSize: 16,
+    fontFamily: "outfit-regular",
   },
   suggestion: {
     fontSize: 16,
     color: "red",
-    fontFamily: "outfit-bold",
     marginTop: 5,
+    fontFamily: "outfit-bold",
   },
   button: {
     color: Colors.WHITE,

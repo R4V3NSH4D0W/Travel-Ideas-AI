@@ -11,8 +11,6 @@ export default function HotelCard({ item }) {
   const currentLanguage = i18next.language;
   const [loading, setLoading] = useState(true);
   const [translatedActivity, setTranslatedActivity] = useState(null);
-  console.log(translatedActivity);
-  console.log(item?.price);
 
   const sliceHotelText = (text, maxLength) => {
     if (!text) return "";

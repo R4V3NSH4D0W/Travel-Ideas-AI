@@ -1,23 +1,26 @@
-import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
   Image,
+  Linking,
   StyleSheet,
   TouchableOpacity,
-  Linking,
 } from "react-native";
+import React, { useEffect, useState } from "react";
+
+import i18next from "i18next";
 import Ionicons from "@expo/vector-icons/Ionicons";
+
+import { GOOGLE_API_KEY } from "../../env";
 import { Colors } from "../../constants/Colors";
 import { GetPhotoRef } from "../../services/GooglePlaceApi";
-import { GOOGLE_API_KEY } from "../../env";
 import { TRANSLATE } from "../../app/i18n/translationHelper";
-import i18next from "i18next";
 
 import { appTranslateText } from "../../services/translationService";
 const PlanCard = ({ activity, location }) => {
   const [photoRef, setPhotoRef] = useState();
   const [translatedActivity, setTranslatedActivity] = useState({});
+
   const currentLanguage = i18next.language;
 
   useEffect(() => {
@@ -148,10 +151,10 @@ const PlanCard = ({ activity, location }) => {
 
 const styles = StyleSheet.create({
   card: {
-    marginBottom: 15,
-    backgroundColor: Colors.EXTREME_LIGHT_GRAY,
-    borderRadius: 15,
     padding: 8,
+    marginBottom: 15,
+    borderRadius: 15,
+    backgroundColor: Colors.EXTREME_LIGHT_GRAY,
   },
   image: {
     width: "100%",
@@ -175,19 +178,19 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   infoText: {
-    fontFamily: "outfit-regular",
     maxWidth: 290,
+    fontFamily: "outfit-regular",
   },
   boldText: {
     fontFamily: "outfit-bold",
   },
   iconContainer: {
-    backgroundColor: Colors.PRIMARY,
     width: 40,
     height: 40,
     borderRadius: 12,
-    justifyContent: "center",
     alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: Colors.PRIMARY,
   },
 });
 

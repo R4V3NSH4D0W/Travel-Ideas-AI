@@ -21,10 +21,8 @@ export const fetchDescriptionFromWikipedia = async (entityName) => {
       return description;
     }
 
-    // If description is empty, try slicing the title
     const titleParts = entityName.split(" ");
     if (titleParts.length > 1) {
-      // Slice the title into two parts and attempt to fetch again
       const firstHalfTitle = titleParts
         .slice(0, Math.ceil(titleParts.length / 2))
         .join(" ");
@@ -35,7 +33,6 @@ export const fetchDescriptionFromWikipedia = async (entityName) => {
       }
     }
 
-    // If still no description found, return "Description not available."
     return "Description not available.";
   } catch (error) {
     console.error("Error fetching Wikipedia description:", error);

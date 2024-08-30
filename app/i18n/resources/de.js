@@ -86,6 +86,10 @@ export default {
     THE_TRIP_HAS_ENDED: "Die Reise ist beendet",
     THE_TRIP_IS_ONGOING: "Die Reise läuft",
     TRANSLATE: "Übersetzen",
+    NO_TRIPS: "Nog geen reizen gepland",
+    NO_TRIPS_DESC:
+      " Het lijkt erop dat het tijd is om een nieuwe reiservaring te plannen! Begin hieronder",
+    START_NEW_TRIP: "Begin een nieuwe reis",
   },
   TRAVELER: {
     "1_TITLE": "Nur ich",
@@ -145,6 +149,7 @@ export default {
     "MODERATE RAIN": "mäßiger Regen",
     "LIGHT RAIN": "leichter Regen",
     "PATCHY RAIN": "stellenweise Regen",
+    "PATCHY RAIN NEARBY": "stellenweise Regen in der Nähe",
     CLEAR: "klar",
     "PARTLY CLOUDY": "teilweise bewölkt",
     OVERCAST: "bewölkt",

@@ -1,25 +1,22 @@
+import { View, Alert, StyleSheet, TouchableOpacity } from "react-native";
 import React, { useState, useEffect, useRef } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  Alert,
-  Image,
-} from "react-native";
-import { Camera, CameraType } from "expo-camera/legacy";
-import * as ImagePicker from "expo-image-picker";
-import FontAwesome from "@expo/vector-icons/FontAwesome";
-import { Colors } from "../../constants/Colors";
-import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+
 import Entypo from "@expo/vector-icons/Entypo";
 import * as FileSystem from "expo-file-system";
+import * as ImagePicker from "expo-image-picker";
+import { Camera, CameraType } from "expo-camera/legacy";
+import FontAwesome from "@expo/vector-icons/FontAwesome";
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+
+import { Colors } from "../../constants/Colors";
 
 const AACamera = ({ onImageCaptured }) => {
   const [type, setType] = useState(CameraType.back);
   const [permission, requestPermission] = Camera.useCameraPermissions();
+
   const [ratio, setRatio] = useState("4:3");
   const [isCameraReady, setIsCameraReady] = useState(false);
+
   const cameraRef = useRef(null);
 
   useEffect(() => {
@@ -85,10 +82,10 @@ const AACamera = ({ onImageCaptured }) => {
   return (
     <View style={styles.container}>
       <Camera
-        style={styles.camera}
         type={type}
         ratio={ratio}
         ref={cameraRef}
+        style={styles.camera}
         onCameraReady={onCameraReady}
       >
         <View style={styles.buttonContainer}>
@@ -106,8 +103,8 @@ const AACamera = ({ onImageCaptured }) => {
           </TouchableOpacity>
           <TouchableOpacity style={styles.button} onPress={toggleCameraType}>
             <MaterialCommunityIcons
-              name="camera-flip"
               size={34}
+              name="camera-flip"
               color={Colors.WHITE}
             />
           </TouchableOpacity>
@@ -122,30 +119,30 @@ export default AACamera;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
     marginTop: 20,
+    justifyContent: "center",
   },
   camera: {
     flex: 1,
     justifyContent: "flex-end",
   },
   buttonContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    paddingHorizontal: 30,
     marginBottom: 40,
+    flexDirection: "row",
+    paddingHorizontal: 30,
+    justifyContent: "space-between",
   },
   button: {
-    backgroundColor: "rgba(211, 211, 211, 0.5)",
-    borderRadius: 50,
     width: 70,
     height: 70,
-    justifyContent: "center",
-    alignItems: "center",
     padding: 15,
+    borderRadius: 50,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "rgba(211, 211, 211, 0.5)",
   },
   text: {
-    color: "white",
     fontSize: 18,
+    color: "white",
   },
 });

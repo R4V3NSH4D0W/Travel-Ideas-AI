@@ -1,19 +1,14 @@
-import { View, Text, Image, ScrollView } from "react-native";
+import { View, Text } from "react-native";
 import React, { useEffect, useState } from "react";
 
 import PlanCard from "./planCard";
-import { getCoordinates } from "../../services/GooglePlaceApi";
-import { fetchWeather } from "../../services/weatherReport";
 import WeatherCard from "./WeatherCard";
 import { TRANSLATE } from "../../app/i18n/translationHelper";
+import { getCoordinates } from "../../services/GooglePlaceApi";
 
 export default function PlannedTrip({ details = [], location, tripData }) {
   const trip = JSON.parse(tripData);
   const { startDate, endDate } = trip;
-
-  const start = new Date(startDate);
-  const end = new Date(endDate);
-  const [weatherData, setWeatherData] = useState({});
 
   const [coordinates, setCoordinates] = useState(null);
 
@@ -67,8 +62,8 @@ export default function PlannedTrip({ details = [], location, tripData }) {
             <Text
               style={{
                 fontSize: 18,
-                fontFamily: "outfit-bold",
                 marginBottom: 5,
+                fontFamily: "outfit-bold",
               }}
             >
               {TRANSLATE("MISC.DAY")} {removeDayPrefix(day.day)}

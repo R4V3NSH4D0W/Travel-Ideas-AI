@@ -17,7 +17,12 @@ import React, { useState, useEffect } from "react";
 
 import { useRouter } from "expo-router";
 import * as ImagePicker from "expo-image-picker";
+import Feather from "@expo/vector-icons/Feather";
+import Ionicons from "@expo/vector-icons/Ionicons";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
+import MaterialIcons from "@expo/vector-icons/MaterialIcons";
+
+import LanguageSwitcher from "../../componets/languageSwitcher/language_switcher";
 
 import {
   uploadImageToFirebase,
@@ -27,19 +32,33 @@ import {
 } from "../../helper/profileScreenHelper";
 import { Colors } from "../../constants/Colors";
 import { auth } from "../../configs/FirebaseConfig";
-import { signOut, updateProfile } from "firebase/auth";
 import { TRANSLATE } from "../i18n/translationHelper";
 
+import { signOut, updateProfile } from "firebase/auth";
+
 export default function Profile() {
+  const [password, setPassword] = useState("");
   const [image, setImage] = useState(auth.currentUser?.photoURL);
   const [biometricEnabled, setBiometricEnabled] = useState(false);
-  const [password, setPassword] = useState("");
   const [email, setEmail] = useState(auth.currentUser?.email || "");
-  const router = useRouter();
-  const user = auth.currentUser;
 
   const [modalTranslateY] = useState(new Animated.Value(500));
   const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const router = useRouter();
+  const user = auth.currentUser;
+
+  function getInitials(name) {
+    const names = name.split(" ");
+    if (names.length > 0) {
+      const firstLetterOfFirstName = names[0].charAt(0).toUpperCase();
+      const firstLetterOfLastName =
+        names.length > 1 ? names[1].charAt(0).toUpperCase() : "";
+      return `${firstLetterOfFirstName}${firstLetterOfLastName}`;
+    } else {
+      return "";
+    }
+  }
 
   useEffect(() => {
     const loadBiometric = async () => {
@@ -145,12 +164,12 @@ export default function Profile() {
           const downloadURL = await uploadImageToFirebase(capturedImageUri);
           await updateProfile(user, { photoURL: downloadURL });
           ToastAndroid.show(
-            "Profile image updated successfully!",
+            TRANSLATE("MESSAGES.PROFILE_IMAGE_UPDATED"),
             ToastAndroid.SHORT
           );
         } catch (error) {
           ToastAndroid.show(
-            "Failed to update profile image.",
+            TRANSLATE("MESSAGES.PROFILE_IMAGE_UPDATE_FAILED"),
             ToastAndroid.SHORT
           );
         }
@@ -189,17 +208,31 @@ export default function Profile() {
           style={{
             width: 100,
             height: 100,
-            backgroundColor: Colors.PRIMARY,
-            borderRadius: 50,
             marginTop: 20,
+            borderRadius: 50,
             overflow: "hidden",
+            alignItems: "center",
+            backgroundColor: Colors.PRIMARY,
           }}
           onPress={pickImage}
         >
-          <Image
-            source={{ uri: image || "https://example.com/default-profile.png" }}
-            style={{ width: "100%", height: "100%" }}
-          />
+          {image ? (
+            <Image
+              source={{ uri: image }}
+              style={{ width: "100%", height: "100%" }}
+            />
+          ) : (
+            <Text
+              style={{
+                fontSize: 34,
+                marginTop: 24,
+                color: Colors.WHITE,
+                fontFamily: "outfit-bold",
+              }}
+            >
+              {getInitials(user?.displayName)}
+            </Text>
+          )}
         </TouchableOpacity>
         <View>
           <Text
@@ -228,89 +261,139 @@ export default function Profile() {
       {/* Biometric Authentication Toggle */}
       <View
         style={{
-          display: "flex",
-          flexDirection: "row",
-          alignItems: "center",
-          backgroundColor: Colors.EXTREME_LIGHT_GRAY,
           padding: 10,
           marginTop: 20,
+          display: "flex",
           borderRadius: 15,
+          alignItems: "center",
+          flexDirection: "row",
           justifyContent: "space-between",
+          backgroundColor: Colors.EXTREME_LIGHT_GRAY,
         }}
       >
-        <Text style={{ fontFamily: "outfit-regular", fontSize: 16 }}>
-          {TRANSLATE("MISC.ENABLE_DISABLE_BIO")}
-        </Text>
+        <View
+          style={{
+            gap: 10,
+            flexDirection: "row",
+            alignItems: "center",
+          }}
+        >
+          <Ionicons name="finger-print" size={24} color="black" />
+          <Text style={{ fontFamily: "outfit-regular", fontSize: 16 }}>
+            {TRANSLATE("MISC.ENABLE_DISABLE_BIO")}
+          </Text>
+        </View>
         <Switch
-          value={biometricEnabled}
-          onValueChange={handleBiometricToggle}
           style={{
             height: 40,
           }}
-          trackColor={{ false: Colors.GRAY, true: Colors.PRIMARY }}
+          value={biometricEnabled}
           thumbColor={Colors.WHITE}
+          onValueChange={handleBiometricToggle}
+          trackColor={{ false: Colors.GRAY, true: Colors.PRIMARY }}
         />
       </View>
+      {/* TODO: Language Switcher */}
+      {/* <TouchableOpacity
+        onPress={() => router.push("../change-language")}
+        style={{
+          marginTop: 20,
+          backgroundColor: Colors.EXTREME_LIGHT_GRAY,
+          borderRadius: 15,
+          paddingVertical: 15,
+          padding: 10,
+          height: 60,
+          justifyContent: "center",
+        }}
+      >
+        <Text
+          style={{
+            fontSize: 16,
+            color: Colors.PRIMARY,
+            fontFamily: "outfit-regular",
+          }}
+        >
+          {TRANSLATE("MISC.CHANGE_LANGUAGE")}
+        </Text>
+      </TouchableOpacity> */}
 
       <TouchableOpacity
         onPress={() => router.push("../ImageRecognition")}
         style={{
+          height: 60,
+          padding: 10,
           marginTop: 20,
-          backgroundColor: Colors.EXTREME_LIGHT_GRAY,
           borderRadius: 15,
           paddingVertical: 15,
-          padding: 10,
-          height: 60,
           justifyContent: "center",
+          backgroundColor: Colors.EXTREME_LIGHT_GRAY,
         }}
       >
-        <Text
+        <View
           style={{
-            fontSize: 16,
-            color: Colors.PRIMARY,
-            fontFamily: "outfit-regular",
+            gap: 10,
+            alignItems: "center",
+            flexDirection: "row",
           }}
         >
-          {TRANSLATE("MISC.LANDMARK_DETECTION")}
-        </Text>
+          <Feather name="camera" size={24} color="black" />
+          <Text
+            style={{
+              fontSize: 16,
+              color: Colors.PRIMARY,
+              fontFamily: "outfit-regular",
+            }}
+          >
+            {TRANSLATE("MISC.LANDMARK_DETECTION")}
+          </Text>
+        </View>
       </TouchableOpacity>
       <TouchableOpacity
         onPress={() => router.push("../TranslateAndAsk")}
         style={{
+          height: 60,
+          padding: 10,
           marginTop: 20,
-          backgroundColor: Colors.EXTREME_LIGHT_GRAY,
           borderRadius: 15,
           paddingVertical: 15,
-          padding: 10,
-          height: 60,
           justifyContent: "center",
+          backgroundColor: Colors.EXTREME_LIGHT_GRAY,
         }}
       >
-        <Text
+        <View
           style={{
-            fontSize: 16,
-            color: Colors.PRIMARY,
-            fontFamily: "outfit-regular",
+            gap: 10,
+            flexDirection: "row",
+            alignItems: "center",
           }}
         >
-          {TRANSLATE("MISC.LANGUAGE_TRANSLATOR")}
-        </Text>
+          <MaterialIcons name="translate" size={24} color="black" />
+          <Text
+            style={{
+              fontSize: 16,
+              color: Colors.PRIMARY,
+              fontFamily: "outfit-regular",
+            }}
+          >
+            {TRANSLATE("MISC.LANGUAGE_TRANSLATOR")}
+          </Text>
+        </View>
       </TouchableOpacity>
 
       <TouchableOpacity
         onPress={handleLogout}
         style={{
           marginTop: 20,
-          backgroundColor: Colors.PRIMARY,
           borderRadius: 15,
           paddingVertical: 15,
           alignItems: "center",
+          backgroundColor: Colors.PRIMARY,
         }}
       >
         <Text
           style={{
-            color: Colors.WHITE,
             fontSize: 16,
+            color: Colors.WHITE,
             fontFamily: "outfit-regular",
           }}
         >
@@ -347,11 +430,11 @@ export default function Profile() {
                 {TRANSLATE("AUTH.ENTER_YOUR_PASSWORD")}
               </Text>
               <TextInput
-                style={styles.modalInput}
-                placeholder={TRANSLATE("AUTH.PASSWORD")}
                 secureTextEntry
                 value={password}
+                style={styles.modalInput}
                 onChangeText={setPassword}
+                placeholder={TRANSLATE("AUTH.PASSWORD")}
               />
 
               <TouchableOpacity
@@ -380,36 +463,36 @@ export default function Profile() {
 const styles = StyleSheet.create({
   overlay: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: "rgba(0, 0, 0, 0.5)",
     zIndex: 1,
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
   modalContainer: {
-    position: "absolute",
-    bottom: 0,
     left: 0,
     right: 0,
-    backgroundColor: Colors.WHITE,
+    bottom: 0,
+    zIndex: 2,
+    padding: 20,
+    position: "absolute",
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
-    padding: 20,
-    zIndex: 2,
+    backgroundColor: Colors.WHITE,
   },
   modalContent: {
     flex: 1,
-    justifyContent: "center",
     alignItems: "center",
+    justifyContent: "center",
   },
   modalTitle: {
     fontSize: 18,
-    fontWeight: "bold",
     marginBottom: 20,
+    fontWeight: "bold",
   },
   modalInput: {
+    padding: 10,
     width: "100%",
-    borderColor: Colors.GRAY,
     borderWidth: 1,
     borderRadius: 10,
-    padding: 10,
     marginBottom: 40,
+    borderColor: Colors.GRAY,
   },
 });

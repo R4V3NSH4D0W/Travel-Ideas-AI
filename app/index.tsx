@@ -1,17 +1,19 @@
-import React, { useEffect, useState } from "react";
-import { View, Text } from "react-native";
-import { Redirect } from "expo-router";
 import "intl-pluralrules";
-import { app, auth } from "../configs/FirebaseConfig";
-import { initializeI18n } from "./i18n";
-import Login from "@/componets/login";
+import { View, Text } from "react-native";
+import React, { useEffect, useState } from "react";
 import { AppState, AppStateStatus } from "react-native";
 
+import { Redirect } from "expo-router";
+import Login from "@/componets/login";
+import { initializeI18n } from "./i18n";
+import { auth } from "../configs/FirebaseConfig";
+
 export default function Index() {
-  const [appState, setAppState] = useState(AppState.currentState);
-  const [isInitialized, setIsInitialized] = useState(false);
-  const user = auth.currentUser;
   const [refreshKey, setRefreshKey] = useState(0);
+  const [isInitialized, setIsInitialized] = useState(false);
+  const [appState, setAppState] = useState(AppState.currentState);
+
+  const user = auth.currentUser;
 
   useEffect(() => {
     const handelAppStateChange = (nextAppState: AppStateStatus) => {

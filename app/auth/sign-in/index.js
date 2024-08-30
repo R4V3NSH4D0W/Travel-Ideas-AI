@@ -13,25 +13,28 @@ import {
   TouchableWithoutFeedback,
 } from "react-native";
 import React, { useState, useEffect } from "react";
-import { Colors } from "../../../constants/Colors";
+
 import { useRouter } from "expo-router";
-import Ionicons from "@expo/vector-icons/Ionicons";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../../configs/FirebaseConfig";
-import * as LocalAuthentication from "expo-local-authentication";
-import * as SecureStore from "expo-secure-store";
 import Entypo from "@expo/vector-icons/Entypo";
+import * as SecureStore from "expo-secure-store";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import * as LocalAuthentication from "expo-local-authentication";
+
+import { signInWithEmailAndPassword } from "firebase/auth";
+
+import { Colors } from "../../../constants/Colors";
+import { auth } from "../../../configs/FirebaseConfig";
 import { TRANSLATE } from "../../i18n/translationHelper";
-import { useTranslation } from "react-i18next";
 
 export default function SignIn() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
   const [biometricEnabled, setBiometricEnabled] = useState(false);
+
+  const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
-  const { i18n } = useTranslation();
+
   useEffect(() => {
     const checkBiometricSettings = async () => {
       const biometricPreference = await SecureStore.getItemAsync(
@@ -162,8 +165,8 @@ export default function SignIn() {
           style={{
             padding: 25,
             paddingTop: 40,
-            backgroundColor: Colors.WHITE,
             height: "100%",
+            backgroundColor: Colors.WHITE,
           }}
         >
           <TouchableOpacity onPress={() => router.back()}>
@@ -200,11 +203,11 @@ export default function SignIn() {
               {TRANSLATE("AUTH.EMAIL")}
             </Text>
             <TextInput
+              value={email}
               style={styles.input}
+              keyboardType="email-address"
               placeholder={TRANSLATE("AUTH.ENTER_EMAIL")}
               onChangeText={(value) => setEmail(value)}
-              value={email}
-              keyboardType="email-address"
             />
           </View>
           {/* Password */}
@@ -241,8 +244,8 @@ export default function SignIn() {
                 padding: 20,
                 marginTop: 20,
                 borderRadius: 15,
-                width: biometricEnabled ? "80%" : "100%",
                 backgroundColor: Colors.PRIMARY,
+                width: biometricEnabled ? "80%" : "100%",
               }}
               onPress={onSignIn}
             >
@@ -258,8 +261,8 @@ export default function SignIn() {
                 style={{
                   padding: 20,
                   marginTop: 20,
-                  justifyContent: "center",
                   alignItems: "center",
+                  justifyContent: "center",
                 }}
               >
                 <Entypo name="fingerprint" size={40} color="black" />
@@ -310,12 +313,12 @@ const styles = StyleSheet.create({
     borderColor: Colors.GRAY,
   },
   passwordContainer: {
-    flexDirection: "row",
-    alignItems: "center",
+    padding: 15,
     borderWidth: 1,
     borderRadius: 15,
+    alignItems: "center",
+    flexDirection: "row",
     borderColor: Colors.GRAY,
-    padding: 15,
   },
   passwordInput: {
     flex: 1,
@@ -327,11 +330,11 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
   activityIndicatorWrapper: {
+    padding: 20,
+    width: "80%",
     display: "flex",
+    borderRadius: 15,
     alignItems: "center",
     justifyContent: "center",
-    padding: 20,
-    borderRadius: 15,
-    width: "80%",
   },
 });

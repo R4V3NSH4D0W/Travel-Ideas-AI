@@ -1,8 +1,9 @@
+import { useTranslation } from "react-i18next";
 import React, { useState, useEffect } from "react";
 import { View, StyleSheet, Image } from "react-native";
 import DropDownPicker from "react-native-dropdown-picker";
-import { useTranslation } from "react-i18next";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+
 import { Colors } from "@/constants/Colors";
 
 const LanguageSwitcher = () => {
@@ -89,10 +90,13 @@ const LanguageSwitcher = () => {
         setOpen={setOpen}
         setValue={setValue}
         setItems={setItems}
-        onChangeValue={(value) => switchLanguage(value)}
         style={styles.dropdown}
-        dropDownContainerStyle={styles.dropDownContainer}
         placeholder="Select Language"
+        onChangeValue={(value) => switchLanguage(value)}
+        dropDownContainerStyle={styles.dropDownContainer}
+        scrollViewProps={{
+          showsVerticalScrollIndicator: false,
+        }}
       />
     </View>
   );
@@ -101,10 +105,9 @@ const LanguageSwitcher = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    marginTop: 20,
     alignItems: "center",
     justifyContent: "center",
-    // paddingHorizontal: 16,
-    marginTop: 20,
   },
   dropdown: {
     width: "65%",

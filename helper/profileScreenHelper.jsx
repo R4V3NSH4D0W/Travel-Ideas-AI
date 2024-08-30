@@ -8,10 +8,11 @@ import {
 import { ToastAndroid } from "react-native";
 import { updateProfile } from "firebase/auth";
 import * as SecureStore from "expo-secure-store";
-import { auth, storage } from "../configs/FirebaseConfig";
 import * as LocalAuthentication from "expo-local-authentication";
-import { EmailAuthProvider, reauthenticateWithCredential } from "firebase/auth";
+
+import { auth, storage } from "../configs/FirebaseConfig";
 import { TRANSLATE } from "../app/i18n/translationHelper";
+import { EmailAuthProvider, reauthenticateWithCredential } from "firebase/auth";
 
 export const uploadImageToFirebase = async (uri) => {
   const user = auth.currentUser;

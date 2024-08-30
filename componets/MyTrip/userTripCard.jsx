@@ -1,25 +1,22 @@
+import { Image, Text, View, Share, TouchableOpacity } from "react-native";
 import React, { useEffect, useState } from "react";
-import {
-  Image,
-  Text,
-  TouchableOpacity,
-  View,
-  Alert,
-  Share,
-} from "react-native";
 import { Swipeable } from "react-native-gesture-handler";
-import moment from "moment";
-import { Colors } from "../../constants/Colors";
-import { GOOGLE_API_KEY } from "../../env";
+
 import { useRouter } from "expo-router";
 import Ionicons from "@expo/vector-icons/Ionicons";
-import { TRANSLATE } from "../../app/i18n/translationHelper";
+
+import moment from "moment";
 import i18next from "i18next";
+
+import { GOOGLE_API_KEY } from "../../env";
+import { Colors } from "../../constants/Colors";
+import { TRANSLATE } from "../../app/i18n/translationHelper";
 import { appTranslateText } from "../../services/translationService";
 
 export default function UserTripCard({ trip, id, onDelete }) {
   const router = useRouter();
   const currentLanguage = i18next.language;
+
   const [translatedActivity, setTranslatedActivity] = useState(null);
 
   const formatData = (data) => JSON.parse(data);
@@ -83,12 +80,12 @@ export default function UserTripCard({ trip, id, onDelete }) {
   const renderRightActions = (progress, dragX) => (
     <View
       style={{
-        justifyContent: "center",
-        alignItems: "center",
+        gap: 20,
         marginTop: 20,
         display: "flex",
+        alignItems: "center",
         flexDirection: "row",
-        gap: 20,
+        justifyContent: "center",
       }}
     >
       <TouchableOpacity onPress={handleShare}>
@@ -116,10 +113,10 @@ export default function UserTripCard({ trip, id, onDelete }) {
           })
         }
         style={{
+          gap: 10,
           marginTop: 20,
           display: "flex",
           flexDirection: "row",
-          gap: 10,
           alignItems: "center",
         }}
       >
@@ -143,18 +140,18 @@ export default function UserTripCard({ trip, id, onDelete }) {
           </Text>
           <Text
             style={{
-              fontFamily: "outfit-regular",
               fontSize: 14,
               color: Colors.GRAY,
+              fontFamily: "outfit-regular",
             }}
           >
             {moment(tripData?.startDate).format("DD MMM yyyy")}
           </Text>
           <Text
             style={{
-              fontFamily: "outfit-regular",
               fontSize: 14,
               color: Colors.GRAY,
+              fontFamily: "outfit-regular",
             }}
           >
             {TRANSLATE("MISC.TRAVELLING")}: {TRANSLATE(travelerTitleKey)}

@@ -84,6 +84,10 @@ export default {
     THE_TRIP_HAS_ENDED: "여행이 종료되었습니다",
     THE_TRIP_IS_ONGOING: "여행 중입니다",
     TRANSLATE: "번역",
+    NO_TRIPS: "아직 계획된 여행이 없습니다",
+    NO_TRIPS_DESC:
+      "새로운 여행을 계획할 때가 된 것 같아요! 아래에서 시작하세요",
+    START_NEW_TRIP: "새로운 여행 시작",
   },
   TRAVELER: {
     "1_TITLE": "혼자",
@@ -136,6 +140,7 @@ export default {
     "MODERATE RAIN": "중간 정도의 비",
     "LIGHT RAIN": "가벼운 비",
     "PATCHY RAIN": "간헐적인 비",
+    "PATCHY RAIN NEARBY": "근처에 간헐적인 비",
     CLEAR: "맑음",
     "PARTLY CLOUDY": "부분적으로 구름이 끼어 있음",
     OVERCAST: "흐림",
